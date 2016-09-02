@@ -1,0 +1,21 @@
+%class "LangParser";
+%package "lang.ast";
+
+%embed {:
+	static public class SyntaxError extends RuntimeException { public SyntaxError(String msg) {super(msg);}}
+	// Disable syntax error recovery
+	protected void recoverFromError(Symbol token, TokenStream in) {
+		throw new SyntaxError("Cannot recover from the syntax error");
+	}
+:};
+
+%terminals LET, IN, END, ASSIGN, MUL, ID, NUMERAL;
+
+%goal program;
+
+program = exp;
+exp = factor | exp MUL factor;
+factor = let | numeral | id;
+let = LET id ASSIGN exp IN exp END;
+numeral = NUMERAL;
+id = ID;
