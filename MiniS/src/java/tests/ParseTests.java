@@ -8,6 +8,27 @@ public class ParseTests extends AbstractTestSuite {
 		super("testfiles");// where test input files are
 	}
 
+    @Test
+	public void full() {
+		testValidSyntax("full.ms");
+	}
+
+	@Test
+	public void error_scanner() {
+		testSyntaxError("error_scanner.ms");
+	}
+
+    @Test
+	public void error_parser() {
+		testParsingError("error_parser.ms");
+	}
+
+	@Test
+	public void shortest() {
+		testValidSyntax("shortest.ms");
+	}
+
+    /**
 	@Test
 	public void identifier() {
 		testValidSyntax("identifier.calc");
@@ -29,11 +50,6 @@ public class ParseTests extends AbstractTestSuite {
 	}
 
 	@Test
-	public void error() {
-		testSyntaxError("error.calc");
-	}
-
-	@Test
 	public void error2() {
 		testSyntaxError("error2.calc");
 	}
@@ -42,4 +58,10 @@ public class ParseTests extends AbstractTestSuite {
 	public void error3() {
 		testSyntaxError("error3.calc");
 	}
+
+	@Test
+	public void the_answer() {
+		testValidSyntax("the_answer.calc");
+	}
+    */
 }

@@ -1,0 +1,12 @@
+lang: java
+
+install:
+ - true
+
+script:
+ - cd CalcParse
+ - ant build; ant test
+ - cd ..
+ - cd MiniS
+ - ant build; ant test
+ - cd ..

@@ -1,0 +1,3 @@
+let MAGIC = 42.0 in
+    MAGIC * 2.0 * 0.5
+end

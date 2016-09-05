@@ -1,17 +1,17 @@
 <project name="Compiler" default="build">
 	<property name="jar.file" value="compiler.jar" />
 
-	<property name="lib.dir" location="lib" />
+    <property name="lib.dir" location="../lib" />
 	<property name="src.dir" location="src" />
 	<property name="gen.dir" location="${src.dir}/gen" />
 	<property name="bin.dir" location="ant-bin" />
-	
-	<property name="cp.lib" 
+
+	<property name="cp.lib"
 		value="${lib.dir}/beaver-rt.jar:${lib.dir}/hamcrest-core-1.3.jar:${lib.dir}/junit-4.11.jar" />
-	
-	<taskdef name="jflex" classname="jflex.anttask.JFlexTask" 
+
+	<taskdef name="jflex" classname="jflex.anttask.JFlexTask"
 		classpath="${lib.dir}/jflex-1.6.0.jar"/>
-	<taskdef name="beaver" classname="beaver.comp.run.AntTask" 
+	<taskdef name="beaver" classname="beaver.comp.run.AntTask"
 		classpath="${lib.dir}/beaver-ant.jar"/>
 
 	<target name="build" depends="gen">
