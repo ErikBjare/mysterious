@@ -14,6 +14,7 @@ import java.util.Scanner;
 
 import lang.ast.LangParser;
 import lang.ast.LangScanner;
+import lang.RecursiveDescentParser;
 
 /**
  * Utility methods for running tests
@@ -21,18 +22,25 @@ import lang.ast.LangScanner;
 abstract class AbstractTestSuite {
 	private static String SYS_LINE_SEP = System.getProperty("line.separator");
 
+    protected final boolean useRecursiveDescent;
+
 	/**
 	 * Directory where test files for this test suite live.
 	 */
 	protected final File testDirectory;
 
 	public AbstractTestSuite(String testDirectory) {
-		this.testDirectory = new File(testDirectory);
+	    this(testDirectory, false);
+	}
+
+	public AbstractTestSuite(String testDirectory, boolean useRecursiveDescent) {
+        this.testDirectory = new File(testDirectory);
+        this.useRecursiveDescent = useRecursiveDescent;
 	}
 
 	protected void testValidSyntax(String filename) {
 		try {
-			parse(new File(testDirectory, filename));
+			parse(new File(testDirectory, filename), useRecursiveDescent);
 		} catch (Exception e) {
 			fail("Unexpected error while parsing '" + filename + "': "
 				+ e.getMessage());
@@ -45,10 +53,12 @@ abstract class AbstractTestSuite {
 			// We want to discard these messages since we expect syntax error.
 			System.setErr(new PrintStream(new ByteArrayOutputStream()));
 
-			parse(new File(testDirectory, filename));
+			parse(new File(testDirectory, filename), useRecursiveDescent);
 
 			fail("syntax is valid, expected syntax error");
-		} catch (beaver.Parser.Exception | lang.ast.LangParser.SyntaxError e) {
+		} catch (RuntimeException | beaver.Parser.Exception e) {
+            // We use RuntimeException in the RecursiveDescentParser,
+            // otherwise we'd use lang.ast.LangParser.SyntaxError
 			// ok (syntax error)!
 		} catch (Exception e) {
 			fail("IO error while trying to parse '" + filename + "': "
@@ -67,10 +77,15 @@ abstract class AbstractTestSuite {
 	 * @throws IOException
 	 * @throws Exception
 	 */
-	protected static Object parse(File file) throws IOException, Exception {
+	protected static void parse(File file, boolean useRecursiveDescent) throws IOException, Exception {
 		LangScanner scanner = new LangScanner(new FileReader(file));
-		LangParser parser = new LangParser();
-		return parser.parse(scanner);
+        if(useRecursiveDescent) {
+            RecursiveDescentParser parser = new RecursiveDescentParser();
+            parser.parse(scanner);
+        } else {
+            LangParser parser = new LangParser();
+            parser.parse(scanner);
+        }
 	}
 
 	/**
