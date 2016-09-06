@@ -3,8 +3,8 @@ package tests;
 import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class ParseTests extends AbstractTestSuite {
-	public ParseTests() {
+public class BeaverParserTests extends AbstractTestSuite {
+	public BeaverParserTests() {
 		super("testfiles");// where test input files are
 	}
 
