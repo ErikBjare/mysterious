@@ -4,9 +4,9 @@ install:
  - true
 
 script:
- - cd CalcParse
+ - cd ./A1-CalcParse
  - ant build; ant test
  - cd ..
- - cd MiniS
+ - cd ./A1-MiniS
  - ant build; ant test
  - cd ..
