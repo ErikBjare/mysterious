@@ -5,8 +5,14 @@ install:
 
 script:
  - cd ./A1-CalcParse
- - ant build; ant test
+ - ant; ant test
  - cd ..
  - cd ./A1-MiniS
- - ant build; ant test
+ - ant; ant test
+ - cd ..
+ - cd ./A2-CalcAST
+ - ant; ant test
+ - cd ..
+ - cd ./A2-MinimalAST
+ - ant; ant test
  - cd ..
