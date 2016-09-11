@@ -25,6 +25,8 @@
 %typeof binding = "Binding";
 %typeof binding_list = "List";
 
+%typeof opt_exp = "Opt";
+
 %goal program;
 
 program = exp.a {: return new Program(a); :} ;
@@ -43,10 +45,12 @@ factor =
 
 let = LET binding_list.a IN exp.b END {: return new Let(a, b); :} ;
 
-ask =
-	ASK USER {: return new Ask(new Opt()); :}
-	| ASK USER LBRACKET exp.a RBRACKET {: return new Ask(new Opt(a)); :}
+opt_exp =
+	LBRACKET exp.a RBRACKET {: return new Opt(a); :}
+	| /* Epsilon */ {: return new Opt(); :}
 	;
+
+ask = ASK USER opt_exp.d {: return new Ask(d); :} ;
 
 binding_list =
 	binding.a {: return new List().add(a); :}
