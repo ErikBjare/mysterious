@@ -29,7 +29,7 @@ import lang.ast.LangParser.SyntaxError;
 // macros
 WhiteSpace = [ ] | \t | \f | \n | \r
 ID = [a-zA-Z]+
-Numeral = [1-9] [0-9]* "." [0-9]+
+Numeral = [1-9] [0-9]* ("." [0-9]+)?
 
 %%
 
