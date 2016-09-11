@@ -1,0 +1,6 @@
+let
+	radius = ask user [2.0]
+	badpie = 3.0
+in
+	2.0 * badpie * radius
+end

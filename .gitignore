@@ -2,3 +2,4 @@ ant-bin
 */src/gen
 /*.jar
 *.swp
+*.out
