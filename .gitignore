@@ -3,3 +3,4 @@ ant-bin
 /*.jar
 *.swp
 *.out
+compiler.jar

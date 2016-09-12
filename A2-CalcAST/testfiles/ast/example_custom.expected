@@ -10,8 +10,7 @@ Program
         IdDecl ID="badpie"
         Numeral NUMERAL="3.0"
     Mul
+      Numeral NUMERAL="2.0"
       Mul
-        Numeral NUMERAL="2.0"
         IdUse ID="badpie"
-      IdUse ID="radius"
-
+        IdUse ID="radius"

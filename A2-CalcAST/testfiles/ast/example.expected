@@ -10,7 +10,7 @@ Program
           IdDecl ID="PI"
           Numeral NUMERAL="3.14"
       Mul
+        Numeral NUMERAL="2.0"
         Mul
-          Numeral NUMERAL="2.0"
           IdUse ID="PI"
-        IdUse ID="radius"
+          IdUse ID="radius"

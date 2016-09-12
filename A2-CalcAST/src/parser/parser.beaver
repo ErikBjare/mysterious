@@ -33,7 +33,7 @@ program = exp.a {: return new Program(a); :} ;
 
 exp =
 	factor
-	| exp.a MUL factor.b {: return new Mul(a, b); :}
+	| exp.a MUL exp.b {: return new Mul(a, b); :}
 	;
 
 factor =
