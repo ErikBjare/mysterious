@@ -45,6 +45,10 @@ LITERAL = [0-9]+ ("." [0-9]+)? | "\"" [a-zA-Z]* "\""
 "}"           { return sym(Terminals.RIGHTB); }
 ";"			  { return sym(Terminals.SEMIC); }
 "="			  { return sym(Terminals.EQ); }
+"*"           { return sym(Terminals.MUL); }
+"+"           { return sym(Terminals.PLUS); }
+"%"           { return sym(Terminals.MOD); }
+"-"           { return sym(Terminals.MINUS); }
 
 {LITERAL}	  { return sym(Terminals.LITERAL); }
 {ID}          { return sym(Terminals.ID); }
