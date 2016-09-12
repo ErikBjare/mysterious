@@ -9,10 +9,19 @@
 	}
 :};
 
-%terminals ID;
+%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB;
 
 %typeof program = "Program";
+%typeof function = "Function";
+%typeof function_list = "List";
 
 %goal program;
 
-program = ID.id {: return new Program(id); :} ;
+program = function_list.fl {: return new Program(fl); :} ;
+
+function_list = 
+	function.f {: return new List().add(f); :}
+	| function_list.fl function.f {: return fl.add(f); :}
+	;
+
+function = TYPE.t ID.id LEFTP RIGHTP LEFTB RIGHTB {: return new Function(t,id); :} ;

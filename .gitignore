@@ -1,5 +1,6 @@
 ant-bin
 */src/gen
 /*.jar
+*/*.jar
 *.swp
 *.out

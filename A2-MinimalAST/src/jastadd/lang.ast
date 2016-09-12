@@ -1,1 +1,2 @@
-Program ::= <ID>;
+Program ::= Function*;
+Function ::= <TYPE:String> <ID:String>;

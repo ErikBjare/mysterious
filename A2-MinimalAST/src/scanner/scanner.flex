@@ -29,6 +29,7 @@ import lang.ast.LangParser.SyntaxError;
 // macros
 WhiteSpace = [ ] | \t | \f | \n | \r
 ID = [a-zA-Z]+
+TYPE = "int" | "double" | "float"
 
 %%
 
@@ -36,6 +37,12 @@ ID = [a-zA-Z]+
 {WhiteSpace}  { }
 
 // token definitions
+{TYPE}         { return sym(Terminals.TYPE); }
+"("           { return sym(Terminals.LEFTP); }
+")"           { return sym(Terminals.RIGHTP); }
+"{"           { return sym(Terminals.LEFTB); }
+"}"           { return sym(Terminals.RIGHTB); }
+
 {ID}          { return sym(Terminals.ID); }
 <<EOF>>       { return sym(Terminals.EOF); }
 
