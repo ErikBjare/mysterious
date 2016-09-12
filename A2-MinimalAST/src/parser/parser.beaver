@@ -22,11 +22,11 @@
 %typeof literal = "Literal";
 %typeof id = "Id";
 
+%typeof term = "Expr";
+%typeof factor = "Expr";
+
 %typeof add = "Add";
 %typeof multiply = "Multiply";
-
-%typeof term = "Add";
-%typeof factor = "Multiply";
 
 %goal program;
 
@@ -53,20 +53,20 @@ assign = id.id EQ expr.e {: return new Assign(id, e); :};
 
 term =
     factor.a {: return a; :}
-    | add.a {: return a; :} ;
+    | multiply.a {: return a; :} ;
 
 factor =
     literal.a {: return a; :}
-    | id.a {: return a; :}
-    | multiply.a {: return a; :} ;
+    | RIGHTP expr.a LEFTP {: return a; :} ;
 
 expr =
-	term.a {: return a; :} ;
+	term.a {: return a; :}
+    | add.a {: return a; :};
 
 literal = LITERAL.l {: return new Literal(l); :};
 
 id = ID.id {: return new Id(id); :};
 
-add = term.a PLUS expr.b {: return new Add(a, b); :};
+add = expr.a PLUS term.b {: return new Add(a, b); :};
 
-multiply = factor.a STAR expr.b {: return new Multiply(a, b); :};
+multiply = term.a STAR factor.b {: return new Multiply(a, b); :};
