@@ -29,6 +29,8 @@ import lang.ast.LangParser.SyntaxError;
 // macros
 WhiteSpace = [ ] | \t | \f | \n | \r
 ID = [a-zA-Z]+
+TYPE = "int" | "double" | "float"
+LITERAL = [0-9]+ ("." [0-9]+)? | "\"" [a-zA-Z]* "\""
 
 // types
 Type = int
@@ -39,10 +41,16 @@ Type = int
 {WhiteSpace}  { }
 
 // token definitions
-"{"           { return sym(Terminals.LBRACE); }
-"}"           { return sym(Terminals.RBRACE); }
+"("           { return sym(Terminals.LEFTP); }
+")"           { return sym(Terminals.RIGHTP); }
+"{"           { return sym(Terminals.LEFTB); }
+"}"           { return sym(Terminals.RIGHTB); }
+";"			  { return sym(Terminals.SEMIC); }
+"="			  { return sym(Terminals.EQ); }
+
+{TYPE}        { return sym(Terminals.TYPE); }
+{LITERAL}	  { return sym(Terminals.LITERAL); }
 {ID}          { return sym(Terminals.ID); }
-{Type}        { return sym(Terminals.TYPE); }
 <<EOF>>       { return sym(Terminals.EOF); }
 
 /* error fallback */

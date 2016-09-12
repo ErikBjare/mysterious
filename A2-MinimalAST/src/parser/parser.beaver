@@ -9,18 +9,48 @@
 	}
 :};
 
-%terminals ID, TYPE, LPARENS, RPARENS, LBRACE, RBRACE;
+%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, LITERAL, SEMIC;
 
 %typeof program = "Program";
 %typeof function = "Function";
+%typeof function_list = "List";
+%typeof stmts = "List";
+%typeof stmt = "Stmt";
+%typeof id_decl = "IdDecl";
+%typeof assign = "Assign";
+%typeof expr = "Expr";
+%typeof literal = "Literal";
+%typeof id = "Id";
+
 
 %goal program;
 
-program = ID.id {: return new Program(id); :} ;
+program = function_list.fl {: return new Program(fl); :} ;
 
 function_list =
-    function.f {: return new List().add(f); :}
-    | function_list.fl function.f {: return fl.add(f); :} ;
+	function.f {: return new List().add(f); :}
+	| function_list.fl function.f {: return fl.add(f); :}
+	;
 
-function = TYPE.rtype ID.id LPARENS RPARENS LBRACE RBRACE {: return new Function(id, rtype); :} ;
+function = TYPE.t id.id LEFTP RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(t,id,cmds); :} ;
 
+stmt =
+	id_decl.s {: return s; :}
+	| assign.s {: return s; :} ;
+
+stmts =
+	{: return new List(); :}
+	| stmt.s {: return new List().add(s); :}
+	| stmts.list stmt.s {: return list.add(s); :};
+
+id_decl = TYPE.t id.id SEMIC {: return new IdDecl(t,id); :};
+
+assign = id.id EQ expr.e SEMIC {: return new Assign(id,e); :};
+
+expr =
+	literal.l {: return l; :}
+	| id.id {: return id; :} ;
+
+literal = LITERAL.l {: return new Literal(l); :};
+
+id = ID.id {: return new Id(id); :};
