@@ -1,0 +1,6 @@
+int main() {
+	int x;
+	int y;
+	x = 2-1;
+	y = x*5%3+1;
+}

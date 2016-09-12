@@ -3,14 +3,14 @@ Program
     Function TYPE="int"
       Id ID="a"
       List
-        IdDecl TYPE="int"
-          Id ID="x"
-        IdDecl TYPE="int"
+        Assign
           Id ID="y"
+          Id ID="x"
         Assign
           Id ID="x"
           Literal LITERAL="5"
-        Assign
+        IdDecl TYPE="int"
           Id ID="y"
+        IdDecl TYPE="int"
           Id ID="x"
 
