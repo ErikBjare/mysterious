@@ -5,7 +5,9 @@ IdDecl:Stmt ::= <TYPE:String> NewId:Id;
 Assign:Stmt ::= Var:Id Expr;
 
 abstract Expr;
-Id:Expr ::= <ID:String>;
-Literal:Expr ::= <LITERAL:String>;
+Id:Expr         ::= <ID:String>;
+Literal:Expr    ::= <LITERAL:String>;
+Add:Expr        ::= L:Expr R:Expr;
+Multiply:Expr   ::= L:Expr R:Expr;
 
 

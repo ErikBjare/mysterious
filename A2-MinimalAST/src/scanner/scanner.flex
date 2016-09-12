@@ -32,9 +32,6 @@ ID = [a-zA-Z]+
 TYPE = "int" | "double" | "float"
 LITERAL = [0-9]+ ("." [0-9]+)? | "\"" [a-zA-Z]* "\""
 
-// types
-Type = int
-
 %%
 
 // discard whitespace information
@@ -47,6 +44,8 @@ Type = int
 "}"           { return sym(Terminals.RIGHTB); }
 ";"			  { return sym(Terminals.SEMIC); }
 "="			  { return sym(Terminals.EQ); }
+"+"			  { return sym(Terminals.PLUS); }
+"*"			  { return sym(Terminals.STAR); }
 
 {TYPE}        { return sym(Terminals.TYPE); }
 {LITERAL}	  { return sym(Terminals.LITERAL); }

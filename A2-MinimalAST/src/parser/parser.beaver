@@ -9,7 +9,7 @@
 	}
 :};
 
-%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, LITERAL, SEMIC;
+%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, LITERAL, SEMIC, PLUS, STAR;
 
 %typeof program = "Program";
 %typeof function = "Function";
@@ -22,6 +22,11 @@
 %typeof literal = "Literal";
 %typeof id = "Id";
 
+%typeof add = "Add";
+%typeof multiply = "Multiply";
+
+%typeof term = "Add";
+%typeof factor = "Multiply";
 
 %goal program;
 
@@ -32,25 +37,37 @@ function_list =
 	| function_list.fl function.f {: return fl.add(f); :}
 	;
 
-function = TYPE.t id.id LEFTP RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(t,id,cmds); :} ;
+function = TYPE.t id.id LEFTP RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(t, id, cmds); :} ;
 
 stmt =
-	id_decl.s {: return s; :}
-	| assign.s {: return s; :} ;
+	id_decl.s SEMIC {: return s; :}
+	| assign.s SEMIC {: return s; :} ;
 
 stmts =
 	{: return new List(); :}
 	| stmt.s {: return new List().add(s); :}
 	| stmts.list stmt.s {: return list.add(s); :};
 
-id_decl = TYPE.t id.id SEMIC {: return new IdDecl(t,id); :};
+id_decl = TYPE.t id.id {: return new IdDecl(t, id); :};
 
-assign = id.id EQ expr.e SEMIC {: return new Assign(id,e); :};
+assign = id.id EQ expr.e {: return new Assign(id, e); :};
+
+term =
+    factor.a {: return a; :}
+    | add.a {: return a; :} ;
+
+factor =
+    literal.a {: return a; :}
+    | id.a {: return a; :}
+    | multiply.a {: return a; :} ;
 
 expr =
-	literal.l {: return l; :}
-	| id.id {: return id; :} ;
+	term.a {: return a; :} ;
 
 literal = LITERAL.l {: return new Literal(l); :};
 
 id = ID.id {: return new Id(id); :};
+
+add = term.a PLUS expr.b {: return new Add(a, b); :};
+
+multiply = factor.a STAR expr.b {: return new Multiply(a, b); :};
