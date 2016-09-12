@@ -53,20 +53,31 @@ assign = id.id EQ expr.e {: return new Assign(id, e); :};
 
 term =
     factor.a {: return a; :}
-    | multiply.a {: return a; :} ;
+    | multiply.a {: return a; :}
+    ;
 
 factor =
     literal.a {: return a; :}
-    | RIGHTP expr.a LEFTP {: return a; :} ;
+    | RIGHTP expr.a LEFTP {: return a; :}
+    ;
 
 expr =
 	term.a {: return a; :}
-    | add.a {: return a; :};
+    | add.a {: return a; :}
+    ;
 
-literal = LITERAL.l {: return new Literal(l); :};
+literal =
+    LITERAL.l {: return new Literal(l); :}
+    ;
 
-id = ID.id {: return new Id(id); :};
+id =
+    ID.id {: return new Id(id); :}
+    ;
 
-add = expr.a PLUS term.b {: return new Add(a, b); :};
+add =
+    expr.a PLUS term.b {: return new Add(a, b); :}
+    ;
 
-multiply = term.a STAR factor.b {: return new Multiply(a, b); :};
+multiply =
+    term.a STAR factor.b {: return new Multiply(a, b); :}
+    ;
