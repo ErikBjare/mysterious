@@ -1,1 +1,11 @@
-Program ::= <ID>;
+Program ::= Function*;
+Function ::= <TYPE:String> Name:Id Stmt*;
+abstract Stmt;
+IdDecl:Stmt ::= <TYPE:String> NewId:Id;
+Assign:Stmt ::= Var:Id Expr;
+
+abstract Expr;
+Id:Expr ::= <ID:String>;
+Literal:Expr ::= <LITERAL:String>;
+
+

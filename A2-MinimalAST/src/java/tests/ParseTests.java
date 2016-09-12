@@ -8,11 +8,11 @@ public class ParseTests extends AbstractTestSuite {
 		super("testfiles/parser");// where test input files are
 	}
 
-	@Test
+/*	@Test
 	public void example() {
 		testValidSyntax("example.lang");
 	}
-
+*/
 	@Test
 	public void error() {
 		testSyntaxError("error.lang");
