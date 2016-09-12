@@ -9,10 +9,18 @@
 	}
 :};
 
-%terminals ID;
+%terminals ID, TYPE, LPARENS, RPARENS, LBRACE, RBRACE;
 
 %typeof program = "Program";
+%typeof function = "Function";
 
 %goal program;
 
 program = ID.id {: return new Program(id); :} ;
+
+function_list =
+    function.f {: return new List().add(f); :}
+    | function_list.fl function.f {: return fl.add(f); :} ;
+
+function = TYPE.rtype ID.id LPARENS RPARENS LBRACE RBRACE {: return new Function(id, rtype); :} ;
+
