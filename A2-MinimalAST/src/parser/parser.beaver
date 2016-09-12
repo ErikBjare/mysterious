@@ -45,8 +45,7 @@ stmt =
 
 stmts =
 	{: return new List(); :}
-	| stmt.s {: return new List().add(s); :}
-	| stmts.list stmt.s {: return list.add(s); :};
+	| stmt.s stmts.list {: return list.add(s); :};
 
 id_decl = TYPE.t id.id {: return new IdDecl(t, id); :};
 
