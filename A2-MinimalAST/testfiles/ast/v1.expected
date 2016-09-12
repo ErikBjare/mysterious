@@ -1,0 +1,9 @@
+Program
+  List
+    Function TYPE="int"
+      Id ID="x"
+      List
+    Function TYPE="int"
+      Id ID="y"
+      List
+
