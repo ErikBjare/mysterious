@@ -30,6 +30,7 @@ import lang.ast.LangParser.SyntaxError;
 WhiteSpace = [ ] | \t | \f | \n | \r
 ID = [a-zA-Z]+
 TYPE = "int" | "double" | "float"
+LITERAL = [0-9]+ ("." [0-9]+)? | "\"" [a-zA-Z]* "\""
 
 %%
 
@@ -42,7 +43,10 @@ TYPE = "int" | "double" | "float"
 ")"           { return sym(Terminals.RIGHTP); }
 "{"           { return sym(Terminals.LEFTB); }
 "}"           { return sym(Terminals.RIGHTB); }
+";"			  { return sym(Terminals.SEMIC); }
+"="			  { return sym(Terminals.EQ); }
 
+{LITERAL}	  { return sym(Terminals.LITERAL); }
 {ID}          { return sym(Terminals.ID); }
 <<EOF>>       { return sym(Terminals.EOF); }
 

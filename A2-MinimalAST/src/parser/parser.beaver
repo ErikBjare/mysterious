@@ -9,11 +9,19 @@
 	}
 :};
 
-%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB;
+%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, LITERAL, SEMIC;
 
 %typeof program = "Program";
 %typeof function = "Function";
 %typeof function_list = "List";
+%typeof stmts = "List";
+%typeof stmt = "Stmt";
+%typeof id_decl = "IdDecl";
+%typeof assign = "Assign";
+%typeof expr = "Expr";
+%typeof literal = "Literal";
+%typeof id = "Id";
+
 
 %goal program;
 
@@ -24,4 +32,25 @@ function_list =
 	| function_list.fl function.f {: return fl.add(f); :}
 	;
 
-function = TYPE.t ID.id LEFTP RIGHTP LEFTB RIGHTB {: return new Function(t,id); :} ;
+function = TYPE.t id.id LEFTP RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(t,id,cmds); :} ;
+
+stmt =
+	id_decl.s {: return s; :}
+	| assign.s {: return s; :} ;
+
+stmts =
+	{: return new List(); :}
+	| stmt.s {: return new List().add(s); :}
+	| stmts.list stmt.s {: return list.add(s); :};
+
+id_decl = TYPE.t id.id SEMIC {: return new IdDecl(t,id); :};
+
+assign = id.id EQ expr.e SEMIC {: return new Assign(id,e); :};
+
+expr =
+	literal.l {: return l; :}
+	| id.id {: return id; :} ;
+
+literal = LITERAL.l {: return new Literal(l); :};
+
+id = ID.id {: return new Id(id); :};
