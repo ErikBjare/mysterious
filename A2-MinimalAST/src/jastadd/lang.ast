@@ -6,6 +6,7 @@ IdDecl:Stmt ::= <TYPE:String> NewId:IdUse;
 Assign:Stmt ::= Var:IdUse Expr;
 IfStmt:Stmt ::= Condition:Expr Stmt*;
 WhileStmt:Stmt ::= Condition:Expr Stmt*;
+ForStmt:Stmt ::= [A:Expr] [B:Expr] [C:Expr] Stmt*;
 
 abstract Expr;
 Add:Expr ::= L:Expr R:Expr;

@@ -9,7 +9,7 @@
     }
 :};
 
-%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, LITERAL, SEMIC, MUL, PLUS, MOD, MINUS, COMMA, WHILE, IF;
+%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, LITERAL, SEMIC, MUL, PLUS, MOD, MINUS, COMMA, WHILE, IF, FOR;
 
 %typeof program = "Program";
 %typeof function = "Function";
@@ -34,6 +34,8 @@
 %typeof if_stmt = "IfStmt";
 %typeof while_stmt = "WhileStmt";
 
+%typeof for_stmt = "Stmt";
+%typeof opt_expr = "Opt";
 
 %goal program;
 
@@ -59,11 +61,22 @@ stmt =
     | assign.s SEMIC {: return s; :}
     | if_stmt.s SEMIC {: return s; :}
     | while_stmt.s SEMIC {: return s; :}
+    | for_stmt.f {: return f; :}
     ;
 
 stmts =
     {: return new List(); :}
     | stmt.s stmts.list {: return list.add(s); :}
+    ;
+
+for_stmt =
+    FOR LEFTP opt_expr.a SEMIC opt_expr.b SEMIC opt_expr.c LEFTB stmts.cmds RIGHTB
+    {: return new ForStmt(a, b, c, cmds); :}
+    ;
+
+opt_expr =
+    {: return new Opt(); :}
+    | expr.e {: return new Opt(e); :}
     ;
 
 id_decl = TYPE.t id_use.id {: return new IdDecl(t,id); :} ;

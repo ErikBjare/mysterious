@@ -52,6 +52,7 @@ LITERAL = [0-9]+ ("." [0-9]+)? | "\"" [a-zA-Z]* "\""
 ","           { return sym(Terminals.COMMA); }
 "while"       { return sym(Terminals.WHILE); }
 "if"          { return sym(Terminals.IF); }
+"for"        { return sym(Terminals.FOR); }
 
 {LITERAL}	  { return sym(Terminals.LITERAL); }
 {ID}          { return sym(Terminals.ID); }
