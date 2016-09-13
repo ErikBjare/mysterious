@@ -49,6 +49,7 @@ LITERAL = [0-9]+ ("." [0-9]+)? | "\"" [a-zA-Z]* "\""
 "+"           { return sym(Terminals.PLUS); }
 "%"           { return sym(Terminals.MOD); }
 "-"           { return sym(Terminals.MINUS); }
+","           { return sym(Terminals.COMMA); }
 
 {LITERAL}	  { return sym(Terminals.LITERAL); }
 {ID}          { return sym(Terminals.ID); }
