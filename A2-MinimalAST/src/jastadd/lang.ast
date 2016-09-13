@@ -1,14 +1,16 @@
 Program ::= Function*;
-Function ::= Name:Id <TYPE:String> Params:IdDecl* Stmt*;
+Function ::= Name:IdUse <TYPE:String> Params:IdDecl* Stmt*;
 
 abstract Stmt;
-IdDecl:Stmt ::= <TYPE:String> NewId:Id;
-Assign:Stmt ::= Var:Id Expr;
+IdDecl:Stmt ::= <TYPE:String> NewId:IdUse;
+Assign:Stmt ::= Var:IdUse Expr;
 
 abstract Expr;
 Add:Expr ::= L:Expr R:Expr;
 Mul:Expr ::= L:Expr R:Expr;
 Sub:Expr ::= L:Expr R:Expr;
 Mod:Expr ::= L:Expr R:Expr;
-Id:Expr ::= <ID:String>;
+
+IdUse:Expr ::= <ID:String>;
 Literal:Expr ::= <LITERAL:String>;
+FunctionCall:Expr ::= Name:IdUse Expr*;

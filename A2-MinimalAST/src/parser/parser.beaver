@@ -20,13 +20,16 @@
 %typeof assign = "Assign";
 %typeof expr = "Expr";
 %typeof literal = "Literal";
-%typeof id = "Id";
+%typeof id_use = "IdUse";
 %typeof term = "Expr";
 %typeof factor = "Expr";
 
 %typeof parameter_list = "List";
 %typeof nonempty_parameter_list = "List";
 
+%typeof function_call = "Expr";
+%typeof expr_list = "List";
+%typeof nonempty_expr_list = "List";
 
 
 %goal program;
@@ -38,7 +41,7 @@ function_list =
     | function_list.fl function.f {: return fl.add(f); :}
     ;
 
-function = TYPE.t id.id LEFTP parameter_list.params RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(id, t, params, cmds); :} ;
+function = TYPE.t id_use.id LEFTP parameter_list.params RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(id, t, params, cmds); :} ;
 
 parameter_list =
     /* epsilon */ {: return new List(); :}
@@ -58,13 +61,14 @@ stmts =
     | stmt.s stmts.list {: return list.add(s); :}
     ;
 
-id_decl = TYPE.t id.id {: return new IdDecl(t,id); :} ;
+id_decl = TYPE.t id_use.id {: return new IdDecl(t,id); :} ;
 
-assign = id.id EQ expr.e {: return new Assign(id,e); :} ;
+assign = id_use.id EQ expr.e {: return new Assign(id,e); :} ;
 
 factor =
     literal.l {: return l; :}
-    | id.id {: return id; :}
+    | id_use.id {: return id; :}
+    | function_call.f {: return f; :}
     ;
 
 term =
@@ -81,5 +85,19 @@ expr =
 
 literal = LITERAL.l {: return new Literal(l); :} ;
 
-id = ID.id {: return new Id(id); :} ;
+id_use = ID.id {: return new IdUse(id); :} ;
+
+function_call =
+    id_use.id LEFTP expr_list.list RIGHTP {: return new FunctionCall(id,list); :}
+    ;
+
+expr_list =
+    {: return new List(); :}
+    | nonempty_expr_list.list {: return list; :}
+    ;
+
+nonempty_expr_list =
+    expr.e {: return new List().add(e); :}
+    | nonempty_expr_list.list COMMA expr.e {: return list.add(e); :}
+    ;
 
