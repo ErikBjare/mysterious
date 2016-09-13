@@ -3,7 +3,8 @@ Program
     Function TYPE="int"
       Id ID="x"
       List
+      List
     Function TYPE="int"
       Id ID="y"
       List
-
+      List

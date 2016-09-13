@@ -3,6 +3,7 @@ Program
     Function TYPE="int"
       Id ID="a"
       List
+      List
         Assign
           Id ID="y"
           Id ID="x"
@@ -13,4 +14,3 @@ Program
           Id ID="y"
         IdDecl TYPE="int"
           Id ID="x"
-
