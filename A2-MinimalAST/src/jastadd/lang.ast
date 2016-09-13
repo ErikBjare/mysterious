@@ -1,5 +1,6 @@
 Program ::= Function*;
-Function ::= <TYPE:String> Name:Id Stmt*;
+Function ::= Name:Id <TYPE:String> Params:IdDecl* Stmt*;
+
 abstract Stmt;
 IdDecl:Stmt ::= <TYPE:String> NewId:Id;
 Assign:Stmt ::= Var:Id Expr;

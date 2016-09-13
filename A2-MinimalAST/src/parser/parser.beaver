@@ -9,7 +9,7 @@
 	}
 :};
 
-%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, LITERAL, SEMIC, MUL, PLUS, MOD, MINUS;
+%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, LITERAL, SEMIC, MUL, PLUS, MOD, MINUS, COMMA;
 
 %typeof program = "Program";
 %typeof function = "Function";
@@ -24,6 +24,9 @@
 %typeof term = "Expr";
 %typeof factor = "Expr";
 
+%typeof parameter_list = "List";
+%typeof nonempty_parameter_list = "List";
+
 
 
 %goal program;
@@ -35,7 +38,15 @@ function_list =
 	| function_list.fl function.f {: return fl.add(f); :}
     ;
 
-function = TYPE.t id.id LEFTP RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(t,id,cmds); :} ;
+function = TYPE.t id.id LEFTP parameter_list.params RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(id, t, params, cmds); :} ;
+
+parameter_list =
+    /* epsilon */ {: return new List(); :}
+    | nonempty_parameter_list.list {: return list; :} ;
+
+nonempty_parameter_list =
+    id_decl.p {: return new List().add(p); :}
+    | id_decl.p COMMA nonempty_parameter_list.list {: return list.add(p); :} ;
 
 stmt =
 	id_decl.s SEMIC {: return s; :}
