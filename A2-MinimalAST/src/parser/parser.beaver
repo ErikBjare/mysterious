@@ -2,11 +2,11 @@
 %package "lang.ast";
 
 %embed {:
-	static public class SyntaxError extends RuntimeException { public SyntaxError(String msg) {super(msg);}}
-	// Disable syntax error recovery
-	protected void recoverFromError(Symbol token, TokenStream in) {
-		throw new SyntaxError("Cannot recover from the syntax error");
-	}
+    static public class SyntaxError extends RuntimeException { public SyntaxError(String msg) {super(msg);}}
+    // Disable syntax error recovery
+    protected void recoverFromError(Symbol token, TokenStream in) {
+        throw new SyntaxError("Cannot recover from the syntax error");
+    }
 :};
 
 %terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, LITERAL, SEMIC, MUL, PLUS, MOD, MINUS, COMMA;
@@ -34,8 +34,8 @@
 program = function_list.fl {: return new Program(fl); :} ;
 
 function_list =
-	function.f {: return new List().add(f); :}
-	| function_list.fl function.f {: return fl.add(f); :}
+    function.f {: return new List().add(f); :}
+    | function_list.fl function.f {: return fl.add(f); :}
     ;
 
 function = TYPE.t id.id LEFTP parameter_list.params RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(id, t, params, cmds); :} ;
@@ -49,13 +49,13 @@ nonempty_parameter_list =
     | id_decl.p COMMA nonempty_parameter_list.list {: return list.add(p); :} ;
 
 stmt =
-	id_decl.s SEMIC {: return s; :}
-	| assign.s SEMIC {: return s; :}
+    id_decl.s SEMIC {: return s; :}
+    | assign.s SEMIC {: return s; :}
     ;
 
 stmts =
-	{: return new List(); :}
-	| stmt.s stmts.list {: return list.add(s); :}
+    {: return new List(); :}
+    | stmt.s stmts.list {: return list.add(s); :}
     ;
 
 id_decl = TYPE.t id.id {: return new IdDecl(t,id); :} ;
@@ -63,20 +63,20 @@ id_decl = TYPE.t id.id {: return new IdDecl(t,id); :} ;
 assign = id.id EQ expr.e {: return new Assign(id,e); :} ;
 
 factor =
-	literal.l {: return l; :}
-	| id.id {: return id; :}
+    literal.l {: return l; :}
+    | id.id {: return id; :}
     ;
 
 term =
-	factor.f {: return f; :}
-	| factor.f MUL term.t {: return new Mul(f,t); :}
-	| factor.f MOD term.t {: return new Mod(f,t); :}
+    factor.f {: return f; :}
+    | factor.f MUL term.t {: return new Mul(f,t); :}
+    | factor.f MOD term.t {: return new Mod(f,t); :}
     ;
 
 expr =
-	expr.e PLUS term.t {: return new Add(e,t); :}
-	| expr.e MINUS term.t {: return new Sub(e,t); :}
-	| term.t {: return t; :}
+    expr.e PLUS term.t {: return new Add(e,t); :}
+    | expr.e MINUS term.t {: return new Sub(e,t); :}
+    | term.t {: return t; :}
     ;
 
 literal = LITERAL.l {: return new Literal(l); :} ;
