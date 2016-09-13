@@ -9,7 +9,7 @@
     }
 :};
 
-%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, LITERAL, SEMIC, MUL, PLUS, MOD, MINUS, COMMA, WHILE, IF, FOR;
+%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, LITERAL, SEMIC, MUL, PLUS, MOD, MINUS, COMMA, WHILE, IF, ELSE, FOR;
 
 %typeof program = "Program";
 %typeof function = "Function";
@@ -31,11 +31,17 @@
 %typeof expr_list = "List";
 %typeof nonempty_expr_list = "List";
 
-%typeof if_stmt = "IfStmt";
-%typeof while_stmt = "WhileStmt";
+%typeof if_stmt = "Stmt";
+%typeof if_block = "Stmt";
+%typeof else_if_blocks = "List";
+%typeof else_block = "Stmt";
+%typeof else_stmt = "Opt";
+
+%typeof while_stmt = "Stmt";
 
 %typeof for_stmt = "Stmt";
 %typeof opt_expr = "Opt";
+
 
 %goal program;
 
@@ -119,10 +125,27 @@ nonempty_expr_list =
     | nonempty_expr_list.list COMMA expr.e {: return list.add(e); :}
     ;
 
+if_stmt = 
+    if_block.i else_if_blocks.ie else_stmt.e {: return new IfStmt(i, ie, e); :} ;
 
-if_stmt =
-    IF LEFTP expr.expr RIGHTP LEFTB stmts.stmts RIGHTB {: return new IfStmt(expr, stmts); :}
+
+if_block =
+    IF LEFTP expr.expr RIGHTP LEFTB stmts.stmts RIGHTB {: return new IfBlock(expr, stmts); :}
     ;
+
+else_if_blocks = 
+    {: return new List(); :}
+    | else_if_blocks.list ELSE if_block.b {: return list.add(b); :} 
+    ; 
+
+else_stmt = 
+    {: return new Opt(); :}
+    | else_block.eb {: return new Opt(eb); :}
+    ;
+else_block = 
+    ELSE LEFTB stmts.stmts RIGHTB {: return new ElseBlock(stmts); :}
+    ;
+    
 
 while_stmt =
     WHILE LEFTP expr.expr RIGHTP LEFTB stmts.stmts RIGHTB {: return new WhileStmt(expr, stmts); :}

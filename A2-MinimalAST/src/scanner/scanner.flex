@@ -28,14 +28,16 @@ import lang.ast.LangParser.SyntaxError;
 
 // macros
 WhiteSpace = [ ] | \t | \f | \n | \r
-ID = [a-zA-Z]+
+ID = [a-zA-Z] [a-zA-Z0-9]*
 TYPE = "int" | "double" | "float"
 LITERAL = [0-9]+ ("." [0-9]+)? | "\"" [a-zA-Z]* "\""
+COMMENT = "//" [^\n\r]
 
 %%
 
 // discard whitespace information
 {WhiteSpace}  { }
+{COMMENT} { }
 
 // token definitions
 {TYPE}         { return sym(Terminals.TYPE); }
@@ -52,6 +54,7 @@ LITERAL = [0-9]+ ("." [0-9]+)? | "\"" [a-zA-Z]* "\""
 ","           { return sym(Terminals.COMMA); }
 "while"       { return sym(Terminals.WHILE); }
 "if"          { return sym(Terminals.IF); }
+"else"          { return sym(Terminals.ELSE); }
 "for"        { return sym(Terminals.FOR); }
 
 {LITERAL}	  { return sym(Terminals.LITERAL); }
