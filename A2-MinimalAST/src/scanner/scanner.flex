@@ -50,6 +50,7 @@ LITERAL = [0-9]+ ("." [0-9]+)? | "\"" [a-zA-Z]* "\""
 "%"           { return sym(Terminals.MOD); }
 "-"           { return sym(Terminals.MINUS); }
 ","           { return sym(Terminals.COMMA); }
+"for"        { return sym(Terminals.FOR); } 
 
 {LITERAL}	  { return sym(Terminals.LITERAL); }
 {ID}          { return sym(Terminals.ID); }
