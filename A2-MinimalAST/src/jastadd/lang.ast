@@ -1,9 +1,9 @@
 Program ::= Function*;
-Function ::= Name:IdUse <TYPE:String> Params:IdDecl* Stmt*;
+Function ::= Name:Id <TYPE:String> Params:IdDecl* Block:Stmt*;
 
 abstract Stmt;
-IdDecl:Stmt ::= <TYPE:String> NewId:IdUse;
-Assign:Stmt ::= Var:IdUse Expr;
+IdDecl:Stmt ::= <TYPE:String> NewId:Id;
+Assign:Stmt ::= Var:Id Expr;
 IfStmt:Stmt ::= Condition:Expr Stmt*;
 WhileStmt:Stmt ::= Condition:Expr Stmt*;
 ForStmt:Stmt ::= [A:Expr] [B:Expr] [C:Expr] Stmt*;
@@ -14,6 +14,6 @@ Mul:Expr ::= L:Expr R:Expr;
 Sub:Expr ::= L:Expr R:Expr;
 Mod:Expr ::= L:Expr R:Expr;
 
-IdUse:Expr ::= <ID:String>;
+Id:Expr ::= <ID:String>;
 Literal:Expr ::= <LITERAL:String>;
-FunctionCall:Expr ::= Name:IdUse Expr*;
+FunctionCall:Expr ::= Name:Id Expr*;
