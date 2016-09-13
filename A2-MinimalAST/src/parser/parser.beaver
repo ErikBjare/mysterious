@@ -72,7 +72,7 @@ stmt =
 
 stmts =
     {: return new List(); :}
-    | stmt.s stmts.list {: return list.add(s); :}
+    | stmts.list stmt.s {: return list.add(s); :}
     ;
 
 for_stmt =
