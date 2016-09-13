@@ -9,7 +9,7 @@
     }
 :};
 
-%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, LITERAL, SEMIC, MUL, PLUS, MOD, MINUS, COMMA;
+%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, LITERAL, SEMIC, MUL, PLUS, MOD, MINUS, COMMA, WHILE, IF;
 
 %typeof program = "Program";
 %typeof function = "Function";
@@ -30,6 +30,9 @@
 %typeof function_call = "Expr";
 %typeof expr_list = "List";
 %typeof nonempty_expr_list = "List";
+
+%typeof if_stmt = "IfStmt";
+%typeof while_stmt = "WhileStmt";
 
 
 %goal program;
@@ -54,6 +57,8 @@ nonempty_parameter_list =
 stmt =
     id_decl.s SEMIC {: return s; :}
     | assign.s SEMIC {: return s; :}
+    | if_stmt.s SEMIC {: return s; :}
+    | while_stmt.s SEMIC {: return s; :}
     ;
 
 stmts =
@@ -99,5 +104,14 @@ expr_list =
 nonempty_expr_list =
     expr.e {: return new List().add(e); :}
     | nonempty_expr_list.list COMMA expr.e {: return list.add(e); :}
+    ;
+
+
+if_stmt =
+    IF LEFTP expr.expr RIGHTP LEFTB stmts.stmts RIGHTB {: return new IfStmt(expr, stmts); :}
+    ;
+
+while_stmt =
+    WHILE LEFTP expr.expr RIGHTP LEFTB stmts.stmts RIGHTB {: return new WhileStmt(expr, stmts); :}
     ;
 

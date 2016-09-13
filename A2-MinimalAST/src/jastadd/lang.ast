@@ -4,6 +4,8 @@ Function ::= Name:IdUse <TYPE:String> Params:IdDecl* Stmt*;
 abstract Stmt;
 IdDecl:Stmt ::= <TYPE:String> NewId:IdUse;
 Assign:Stmt ::= Var:IdUse Expr;
+IfStmt:Stmt ::= Condition:Expr Stmt*;
+WhileStmt:Stmt ::= Condition:Expr Stmt*;
 
 abstract Expr;
 Add:Expr ::= L:Expr R:Expr;
