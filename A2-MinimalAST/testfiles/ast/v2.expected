@@ -2,10 +2,13 @@ Program
   List
     Function
       IdDecl TYPE="int" ID="a"
+        Opt
       List
       List
         IdDecl TYPE="int" ID="x"
+          Opt
         IdDecl TYPE="int" ID="y"
+          Opt
         Assign
           IdUse ID="x"
           Literal LITERAL="5"

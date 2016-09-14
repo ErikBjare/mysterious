@@ -2,9 +2,11 @@ Program
   List
     Function
       IdDecl TYPE="int" ID="x"
+        Opt
       List
       List
     Function
       IdDecl TYPE="int" ID="y"
+        Opt
       List
       List
