@@ -9,7 +9,7 @@
     }
 :};
 
-%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, LITERAL, SEMIC, MUL, PLUS, MOD, MINUS, COMMA, WHILE, IF, ELSE, FOR;
+%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, EQEQ, NOTEQ, LT, LTEQ, GT, GTEQ, LITERAL, SEMIC, MUL, PLUS, MOD, MINUS, COMMA, WHILE, IF, ELSE, FOR, RETURN;
 
 %typeof program = "Program";
 
@@ -22,10 +22,12 @@
 
 %typeof expr = "Expr";
 %typeof id_decl = "IdDecl";
+%typeof opt_assign = "Opt";
 %typeof id_use = "IdUse";
 %typeof literal = "Literal";
 %typeof term = "Expr";
 %typeof factor = "Expr";
+%typeof bin_operand = "Expr";
 
 %typeof function_call = "Expr";
 %typeof parameter_list = "List";
@@ -63,14 +65,16 @@ parameter_list =
 
 nonempty_parameter_list =
     id_decl.p {: return new List().add(p); :}
-    | id_decl.p COMMA nonempty_parameter_list.list {: return list.add(p); :} ;
+    | nonempty_parameter_list.list COMMA id_decl.p {: return list.add(p); :} ;
 
 stmt =
     id_decl.s SEMIC {: return s; :}
     | assign.s SEMIC {: return s; :}
-    | if_stmt.s SEMIC {: return s; :}
-    | while_stmt.s SEMIC {: return s; :}
+    | if_stmt.s {: return s; :}
+    | while_stmt.s {: return s; :}
     | for_stmt.f {: return f; :}
+    | RETURN expr.e SEMIC {: return new Return(e); :}
+    | expr.e SEMIC {: return e; :}
     ;
 
 stmts =
@@ -88,7 +92,12 @@ opt_expr =
     | expr.e {: return new Opt(e); :}
     ;
 
-id_decl = TYPE.t ID.id {: return new IdDecl(id, t); :} ;
+id_decl = TYPE.t ID.id opt_assign.o {: return new IdDecl(id, t, o); :} ;
+
+opt_assign =
+    {: return new Opt(); :}
+    | EQ expr.e {: return new Opt(e); :}
+    ;
 
 assign = id_use.id EQ expr.e {: return new Assign(id, e); :} ;
 
@@ -104,10 +113,20 @@ term =
     | factor.f MOD term.t {: return new Mod(f,t); :}
     ;
 
-expr =
-    expr.e PLUS term.t {: return new Add(e,t); :}
-    | expr.e MINUS term.t {: return new Sub(e,t); :}
+bin_operand =
+    term.t PLUS bin_operand.b {: return new Add(t,b); :}
+    | term.t MINUS bin_operand.b {: return new Sub(t,b); :}
     | term.t {: return t; :}
+    ;
+
+expr =
+    bin_operand.e LT bin_operand.b {: return new LessThan(e, b); :}
+    | bin_operand.e GT bin_operand.b {: return new GreaterThan(e, b); :}
+    | bin_operand.e LTEQ bin_operand.b {: return new LessThanEq(e, b); :}
+    | bin_operand.e GTEQ bin_operand.b {: return new GreaterThanEq(e, b); :}
+    | bin_operand.e NOTEQ bin_operand.b {: return new NotEq(e, b); :}
+    | bin_operand.e EQEQ bin_operand.b {: return new Equals(e,b); :}
+    | bin_operand.b {: return b; :}
     ;
 
 literal = LITERAL.l {: return new Literal(l); :} ;
