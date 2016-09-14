@@ -1,12 +1,12 @@
 Program
   List
     Function
-      IdDecl TYPE="int" ID="x"
+      IdDecl ID="x" TYPE="int"
         Opt
       List
       List
     Function
-      IdDecl TYPE="int" ID="y"
+      IdDecl ID="y" TYPE="int"
         Opt
       List
       List
