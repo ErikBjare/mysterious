@@ -1,0 +1,22 @@
+Program
+  List
+    Function
+      IdDecl TYPE="int" ID="main"
+      List
+      List
+        IdDecl TYPE="int" ID="x"
+        IdDecl TYPE="int" ID="y"
+        Assign
+          IdUse ID="x"
+          Sub
+            Literal LITERAL="2"
+            Literal LITERAL="1"
+        Assign
+          IdUse ID="y"
+          Add
+            Mul
+              IdUse ID="x"
+              Mod
+                Literal LITERAL="5"
+                Literal LITERAL="3"
+            Literal LITERAL="1"

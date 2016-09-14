@@ -2,17 +2,178 @@
 %package "lang.ast";
 
 %embed {:
-	static public class SyntaxError extends RuntimeException { public SyntaxError(String msg) {super(msg);}}
-	// Disable syntax error recovery
-	protected void recoverFromError(Symbol token, TokenStream in) {
-		throw new SyntaxError("Cannot recover from the syntax error");
-	}
+    static public class SyntaxError extends RuntimeException { public SyntaxError(String msg) {super(msg);}}
+    // Disable syntax error recovery
+    protected void recoverFromError(Symbol token, TokenStream in) {
+        throw new SyntaxError("Cannot recover from the syntax error");
+    }
 :};
 
-%terminals ID;
+%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, EQEQ, NOTEQ, LT, LTEQ, GT, GTEQ, LITERAL, SEMIC, MUL, PLUS, MOD, MINUS, COMMA, WHILE, IF, ELSE, FOR, RETURN;
 
 %typeof program = "Program";
 
+%typeof function = "Function";
+%typeof function_list = "List";
+
+%typeof stmts = "List";
+%typeof stmt = "Stmt";
+%typeof assign = "Assign";
+
+%typeof expr = "Expr";
+%typeof id_decl = "IdDecl";
+%typeof opt_assign = "Opt";
+%typeof id_use = "IdUse";
+%typeof literal = "Literal";
+%typeof term = "Expr";
+%typeof factor = "Expr";
+%typeof bin_operand = "Expr";
+
+%typeof function_call = "Expr";
+%typeof parameter_list = "List";
+%typeof nonempty_parameter_list = "List";
+
+%typeof expr_list = "List";
+%typeof nonempty_expr_list = "List";
+
+%typeof expr_stmt = "Stmt";
+%typeof if_stmt = "Stmt";
+%typeof if_block = "Stmt";
+%typeof else_if_blocks = "List";
+%typeof else_block = "Stmt";
+%typeof else_stmt = "Opt";
+
+%typeof while_stmt = "Stmt";
+
+%typeof for_stmt = "Stmt";
+%typeof opt_expr = "Opt";
+
+
 %goal program;
 
-program = ID.id {: return new Program(id); :} ;
+program = function_list.fl {: return new Program(fl); :} ;
+
+function_list =
+    function.f {: return new List().add(f); :}
+    | function_list.fl function.f {: return fl.add(f); :}
+    ;
+
+function = id_decl.id LEFTP parameter_list.params RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(id, params, cmds); :} ;
+
+parameter_list =
+    /* epsilon */ {: return new List(); :}
+    | nonempty_parameter_list.list {: return list; :} ;
+
+nonempty_parameter_list =
+    id_decl.p {: return new List().add(p); :}
+    | nonempty_parameter_list.list COMMA id_decl.p {: return list.add(p); :} ;
+
+stmt =
+    id_decl.s SEMIC {: return s; :}
+    | assign.s SEMIC {: return s; :}
+    | if_stmt.s {: return s; :}
+    | while_stmt.s {: return s; :}
+    | for_stmt.f {: return f; :}
+    | RETURN expr.e SEMIC {: return new Return(e); :}
+    | expr_stmt.e {: return e; :}
+    ;
+
+expr_stmt =
+    expr.e SEMIC {: return new ExpressionStmt(e); :};
+
+stmts =
+    {: return new List(); :}
+    | stmts.list stmt.s {: return list.add(s); :}
+    ;
+
+for_stmt =
+    FOR LEFTP opt_expr.a SEMIC opt_expr.b SEMIC opt_expr.c LEFTB stmts.cmds RIGHTB
+    {: return new ForStmt(a, b, c, cmds); :}
+    ;
+
+opt_expr =
+    {: return new Opt(); :}
+    | expr.e {: return new Opt(e); :}
+    ;
+
+id_decl = TYPE.t ID.id opt_assign.o {: return new IdDecl(id, t, o); :} ;
+
+opt_assign =
+    {: return new Opt(); :}
+    | EQ expr.e {: return new Opt(e); :}
+    ;
+
+assign = id_use.id EQ expr.e {: return new Assign(id, e); :} ;
+
+factor =
+    literal.l {: return l; :}
+    | id_use.id {: return id; :}
+    | function_call.f {: return f; :}
+    ;
+
+term =
+    factor.f {: return f; :}
+    | factor.f MUL term.t {: return new Mul(f,t); :}
+    | factor.f MOD term.t {: return new Mod(f,t); :}
+    ;
+
+bin_operand =
+    term.t PLUS bin_operand.b {: return new Add(t,b); :}
+    | term.t MINUS bin_operand.b {: return new Sub(t,b); :}
+    | term.t {: return t; :}
+    ;
+
+expr =
+    bin_operand.e LT bin_operand.b {: return new LessThan(e, b); :}
+    | bin_operand.e GT bin_operand.b {: return new GreaterThan(e, b); :}
+    | bin_operand.e LTEQ bin_operand.b {: return new LessThanEq(e, b); :}
+    | bin_operand.e GTEQ bin_operand.b {: return new GreaterThanEq(e, b); :}
+    | bin_operand.e NOTEQ bin_operand.b {: return new NotEq(e, b); :}
+    | bin_operand.e EQEQ bin_operand.b {: return new Equals(e,b); :}
+    | bin_operand.b {: return b; :}
+    ;
+
+literal = LITERAL.l {: return new Literal(l); :} ;
+
+id_use = ID.id {: return new IdUse(id); :} ;
+
+function_call =
+    id_use.id LEFTP expr_list.list RIGHTP {: return new FunctionCall(id, list); :}
+    ;
+
+expr_list =
+    {: return new List(); :}
+    | nonempty_expr_list.list {: return list; :}
+    ;
+
+nonempty_expr_list =
+    expr.e {: return new List().add(e); :}
+    | nonempty_expr_list.list COMMA expr.e {: return list.add(e); :}
+    ;
+
+if_stmt =
+    if_block.i else_if_blocks.ie else_stmt.e {: return new IfStmt(i, ie, e); :} ;
+
+
+if_block =
+    IF LEFTP expr.expr RIGHTP LEFTB stmts.stmts RIGHTB {: return new IfBlock(expr, stmts); :}
+    ;
+
+else_if_blocks =
+    {: return new List(); :}
+    | else_if_blocks.list ELSE if_block.b {: return list.add(b); :}
+    ;
+
+else_stmt =
+    {: return new Opt(); :}
+    | else_block.eb {: return new Opt(eb); :}
+    ;
+else_block =
+    ELSE LEFTB stmts.stmts RIGHTB {: return new ElseBlock(stmts); :}
+    ;
+
+
+while_stmt =
+    WHILE LEFTP expr.expr RIGHTP LEFTB stmts.stmts RIGHTB {: return new WhileStmt(expr, stmts); :}
+    ;
+

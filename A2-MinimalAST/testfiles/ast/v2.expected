@@ -1,0 +1,14 @@
+Program
+  List
+    Function
+      IdDecl TYPE="int" ID="a"
+      List
+      List
+        IdDecl TYPE="int" ID="x"
+        IdDecl TYPE="int" ID="y"
+        Assign
+          IdUse ID="x"
+          Literal LITERAL="5"
+        Assign
+          IdUse ID="y"
+          IdUse ID="x"
