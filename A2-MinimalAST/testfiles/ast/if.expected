@@ -1,0 +1,20 @@
+Program
+  List
+    Function TYPE="int"
+      Id ID="x"
+      List
+      List
+        IdDecl TYPE="int"
+          Id ID="a"
+        Assign
+          Id ID="a"
+          Literal LITERAL="1"
+        IfStmt
+          IfBlock
+            Id ID="a"
+            List
+              Assign
+                Id ID="a"
+                Literal LITERAL="2"
+          List
+          Opt

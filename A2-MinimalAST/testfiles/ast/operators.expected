@@ -4,6 +4,15 @@ Program
       Id ID="main"
       List
       List
+        IdDecl TYPE="int"
+          Id ID="x"
+        IdDecl TYPE="int"
+          Id ID="y"
+        Assign
+          Id ID="x"
+          Sub
+            Literal LITERAL="2"
+            Literal LITERAL="1"
         Assign
           Id ID="y"
           Add
@@ -13,12 +22,3 @@ Program
                 Literal LITERAL="5"
                 Literal LITERAL="3"
             Literal LITERAL="1"
-        Assign
-          Id ID="x"
-          Sub
-            Literal LITERAL="2"
-            Literal LITERAL="1"
-        IdDecl TYPE="int"
-          Id ID="y"
-        IdDecl TYPE="int"
-          Id ID="x"

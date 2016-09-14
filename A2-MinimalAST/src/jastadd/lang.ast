@@ -4,7 +4,12 @@ Function ::= Name:Id <TYPE:String> Params:IdDecl* Block:Stmt*;
 abstract Stmt;
 IdDecl:Stmt ::= <TYPE:String> NewId:Id;
 Assign:Stmt ::= Var:Id Expr;
-IfStmt:Stmt ::= Condition:Expr Stmt*;
+
+IfStmt:Stmt ::= IfBlock:Stmt ElIfBlocks:Stmt* [ElseBlock:Stmt];
+IfBlock:Stmt ::= Condition:Expr Stmt*;
+ElseBlock:Stmt ::= Stmt*;
+
+
 WhileStmt:Stmt ::= Condition:Expr Stmt*;
 ForStmt:Stmt ::= [A:Expr] [B:Expr] [C:Expr] Stmt*;
 

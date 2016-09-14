@@ -4,13 +4,13 @@ Program
       Id ID="a"
       List
       List
-        Assign
-          Id ID="y"
+        IdDecl TYPE="int"
           Id ID="x"
+        IdDecl TYPE="int"
+          Id ID="y"
         Assign
           Id ID="x"
           Literal LITERAL="5"
-        IdDecl TYPE="int"
+        Assign
           Id ID="y"
-        IdDecl TYPE="int"
           Id ID="x"
