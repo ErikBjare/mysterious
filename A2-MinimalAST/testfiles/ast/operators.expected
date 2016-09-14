@@ -1,23 +1,21 @@
 Program
   List
-    Function TYPE="int"
-      Id ID="main"
+    Function
+      IdDecl TYPE="int" ID="main"
       List
       List
-        IdDecl TYPE="int"
-          Id ID="x"
-        IdDecl TYPE="int"
-          Id ID="y"
+        IdDecl TYPE="int" ID="x"
+        IdDecl TYPE="int" ID="y"
         Assign
-          Id ID="x"
+          IdUse ID="x"
           Sub
             Literal LITERAL="2"
             Literal LITERAL="1"
         Assign
-          Id ID="y"
+          IdUse ID="y"
           Add
             Mul
-              Id ID="x"
+              IdUse ID="x"
               Mod
                 Literal LITERAL="5"
                 Literal LITERAL="3"

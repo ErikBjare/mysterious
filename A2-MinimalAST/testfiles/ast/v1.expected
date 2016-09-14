@@ -1,10 +1,10 @@
 Program
   List
-    Function TYPE="int"
-      Id ID="x"
+    Function
+      IdDecl TYPE="int" ID="x"
       List
       List
-    Function TYPE="int"
-      Id ID="y"
+    Function
+      IdDecl TYPE="int" ID="y"
       List
       List

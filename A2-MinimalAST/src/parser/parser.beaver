@@ -12,22 +12,25 @@
 %terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, LITERAL, SEMIC, MUL, PLUS, MOD, MINUS, COMMA, WHILE, IF, ELSE, FOR;
 
 %typeof program = "Program";
+
 %typeof function = "Function";
 %typeof function_list = "List";
+
 %typeof stmts = "List";
 %typeof stmt = "Stmt";
-%typeof id_decl = "IdDecl";
 %typeof assign = "Assign";
+
 %typeof expr = "Expr";
+%typeof id_decl = "IdDecl";
+%typeof id_use = "IdUse";
 %typeof literal = "Literal";
-%typeof id = "Id";
 %typeof term = "Expr";
 %typeof factor = "Expr";
 
+%typeof function_call = "Expr";
 %typeof parameter_list = "List";
 %typeof nonempty_parameter_list = "List";
 
-%typeof function_call = "Expr";
 %typeof expr_list = "List";
 %typeof nonempty_expr_list = "List";
 
@@ -52,7 +55,7 @@ function_list =
     | function_list.fl function.f {: return fl.add(f); :}
     ;
 
-function = TYPE.t id.id LEFTP parameter_list.params RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(id, t, params, cmds); :} ;
+function = id_decl.id LEFTP parameter_list.params RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(id, params, cmds); :} ;
 
 parameter_list =
     /* epsilon */ {: return new List(); :}
@@ -85,13 +88,13 @@ opt_expr =
     | expr.e {: return new Opt(e); :}
     ;
 
-id_decl = TYPE.t id.id {: return new IdDecl(t,id); :} ;
+id_decl = TYPE.t ID.id {: return new IdDecl(id, t); :} ;
 
-assign = id.id EQ expr.e {: return new Assign(id,e); :} ;
+assign = id_use.id EQ expr.e {: return new Assign(id, e); :} ;
 
 factor =
     literal.l {: return l; :}
-    | id.id {: return id; :}
+    | id_use.id {: return id; :}
     | function_call.f {: return f; :}
     ;
 
@@ -109,10 +112,10 @@ expr =
 
 literal = LITERAL.l {: return new Literal(l); :} ;
 
-id = ID.id {: return new Id(id); :} ;
+id_use = ID.id {: return new IdUse(id); :} ;
 
 function_call =
-    id.id LEFTP expr_list.list RIGHTP {: return new FunctionCall(id,list); :}
+    id_use.id LEFTP expr_list.list RIGHTP {: return new FunctionCall(id, list); :}
     ;
 
 expr_list =
@@ -125,7 +128,7 @@ nonempty_expr_list =
     | nonempty_expr_list.list COMMA expr.e {: return list.add(e); :}
     ;
 
-if_stmt = 
+if_stmt =
     if_block.i else_if_blocks.ie else_stmt.e {: return new IfStmt(i, ie, e); :} ;
 
 
@@ -133,19 +136,19 @@ if_block =
     IF LEFTP expr.expr RIGHTP LEFTB stmts.stmts RIGHTB {: return new IfBlock(expr, stmts); :}
     ;
 
-else_if_blocks = 
+else_if_blocks =
     {: return new List(); :}
-    | else_if_blocks.list ELSE if_block.b {: return list.add(b); :} 
-    ; 
+    | else_if_blocks.list ELSE if_block.b {: return list.add(b); :}
+    ;
 
-else_stmt = 
+else_stmt =
     {: return new Opt(); :}
     | else_block.eb {: return new Opt(eb); :}
     ;
-else_block = 
+else_block =
     ELSE LEFTB stmts.stmts RIGHTB {: return new ElseBlock(stmts); :}
     ;
-    
+
 
 while_stmt =
     WHILE LEFTP expr.expr RIGHTP LEFTB stmts.stmts RIGHTB {: return new WhileStmt(expr, stmts); :}

@@ -1,17 +1,16 @@
 Program
   List
-    Function TYPE="int"
-      Id ID="x"
+    Function
+      IdDecl TYPE="int" ID="x"
       List
       List
-        IdDecl TYPE="int"
-          Id ID="a"
+        IdDecl TYPE="int" ID="a"
         Assign
-          Id ID="a"
+          IdUse ID="a"
           Literal LITERAL="1"
         WhileStmt
-          Id ID="a"
+          IdUse ID="a"
           List
             Assign
-              Id ID="a"
+              IdUse ID="a"
               Literal LITERAL="2"

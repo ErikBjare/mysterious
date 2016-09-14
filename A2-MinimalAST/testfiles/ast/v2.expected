@@ -1,16 +1,14 @@
 Program
   List
-    Function TYPE="int"
-      Id ID="a"
+    Function
+      IdDecl TYPE="int" ID="a"
       List
       List
-        IdDecl TYPE="int"
-          Id ID="x"
-        IdDecl TYPE="int"
-          Id ID="y"
+        IdDecl TYPE="int" ID="x"
+        IdDecl TYPE="int" ID="y"
         Assign
-          Id ID="x"
+          IdUse ID="x"
           Literal LITERAL="5"
         Assign
-          Id ID="y"
-          Id ID="x"
+          IdUse ID="y"
+          IdUse ID="x"
