@@ -6,6 +6,7 @@ abstract Stmt;
 IdDecl:Stmt ::= <ID:String> <TYPE:String> [Expr];
 Assign:Stmt ::= Var:IdUse Expr;
 Return:Stmt ::= Expr;
+ExpressionStmt:Stmt ::= Expr;
 
 IfStmt:Stmt ::= IfBlock:Stmt ElIfBlocks:Stmt* [ElseBlock:Stmt];
 IfBlock:Stmt ::= Condition:Expr Stmt*;

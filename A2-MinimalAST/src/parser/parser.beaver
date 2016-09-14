@@ -36,6 +36,7 @@
 %typeof expr_list = "List";
 %typeof nonempty_expr_list = "List";
 
+%typeof expr_stmt = "Stmt";
 %typeof if_stmt = "Stmt";
 %typeof if_block = "Stmt";
 %typeof else_if_blocks = "List";
@@ -74,8 +75,11 @@ stmt =
     | while_stmt.s {: return s; :}
     | for_stmt.f {: return f; :}
     | RETURN expr.e SEMIC {: return new Return(e); :}
-    | expr.e SEMIC {: return e; :}
+    | expr_stmt.e {: return e; :}
     ;
+
+expr_stmt =
+    expr.e SEMIC {: return new ExpressionStmt(e); :};
 
 stmts =
     {: return new List(); :}
