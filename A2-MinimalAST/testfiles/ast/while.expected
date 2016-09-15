@@ -1,9 +1,15 @@
 Program
   List
+<<<<<<< HEAD
     Function TYPE="int" ID="x"
+=======
+    Function
+      IdDecl ID="x" TYPE="int"
+        Opt
+>>>>>>> 77dad6e1e98fabc43d19ca9f05a4185cf38a4aaa
       List
       List
-        IdDecl TYPE="int" ID="a"
+        IdDecl ID="a" TYPE="int"
           Opt
         Assign
           IdUse ID="a"

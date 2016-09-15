@@ -1,8 +1,19 @@
 Program
   List
+<<<<<<< HEAD
     Function TYPE="int" ID="x"
       List
       List
     Function TYPE="int" ID="y"
+=======
+    Function
+      IdDecl ID="x" TYPE="int"
+        Opt
+      List
+      List
+    Function
+      IdDecl ID="y" TYPE="int"
+        Opt
+>>>>>>> 77dad6e1e98fabc43d19ca9f05a4185cf38a4aaa
       List
       List

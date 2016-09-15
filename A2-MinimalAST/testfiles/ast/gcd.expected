@@ -1,10 +1,16 @@
 Program
   List
+<<<<<<< HEAD
     Function TYPE="int" ID="gcd1"
+=======
+    Function
+      IdDecl ID="gcd1" TYPE="int"
+        Opt
+>>>>>>> 77dad6e1e98fabc43d19ca9f05a4185cf38a4aaa
       List
-        IdDecl TYPE="int" ID="a"
+        IdDecl ID="a" TYPE="int"
           Opt
-        IdDecl TYPE="int" ID="b"
+        IdDecl ID="b" TYPE="int"
           Opt
       List
         WhileStmt
@@ -34,11 +40,17 @@ Program
                         IdUse ID="a"
         Return
           IdUse ID="a"
+<<<<<<< HEAD
     Function TYPE="int" ID="gcd2"
+=======
+    Function
+      IdDecl ID="gcd2" TYPE="int"
+        Opt
+>>>>>>> 77dad6e1e98fabc43d19ca9f05a4185cf38a4aaa
       List
-        IdDecl TYPE="int" ID="a"
+        IdDecl ID="a" TYPE="int"
           Opt
-        IdDecl TYPE="int" ID="b"
+        IdDecl ID="b" TYPE="int"
           Opt
       List
         IfStmt
@@ -59,12 +71,18 @@ Program
               Mod
                 IdUse ID="a"
                 IdUse ID="b"
+<<<<<<< HEAD
     Function TYPE="int" ID="main"
+=======
+    Function
+      IdDecl ID="main" TYPE="int"
+        Opt
+>>>>>>> 77dad6e1e98fabc43d19ca9f05a4185cf38a4aaa
       List
       List
-        IdDecl TYPE="int" ID="a"
+        IdDecl ID="a" TYPE="int"
           Opt
-        IdDecl TYPE="int" ID="b"
+        IdDecl ID="b" TYPE="int"
           Opt
         Assign
           IdUse ID="a"
@@ -94,7 +112,7 @@ Program
                 List
                   IdUse ID="a"
                   IdUse ID="b"
-        IdDecl TYPE="int" ID="diff"
+        IdDecl ID="diff" TYPE="int"
           Opt
             Sub
               FunctionCall
