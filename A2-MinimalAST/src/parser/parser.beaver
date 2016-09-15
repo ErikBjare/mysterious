@@ -58,7 +58,7 @@ function_list =
     | function_list.fl function.f {: return fl.add(f); :}
     ;
 
-function = id_decl.id LEFTP parameter_list.params RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(id, params, cmds); :} ;
+function = TYPE.type ID.id LEFTP parameter_list.params RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(id, type, params, cmds); :} ;
 
 parameter_list =
     /* epsilon */ {: return new List(); :}
@@ -103,7 +103,9 @@ opt_assign =
     | EQ expr.e {: return new Opt(e); :}
     ;
 
-assign = id_use.id EQ expr.e {: return new Assign(id, e); :} ;
+assign =
+    id_use.id EQ expr.e {: return new Assign(id, e); :}
+    ;
 
 factor =
     literal.l {: return l; :}
@@ -112,30 +114,34 @@ factor =
     ;
 
 term =
-    factor.f {: return f; :}
-    | factor.f MUL term.t {: return new Mul(f,t); :}
-    | factor.f MOD term.t {: return new Mod(f,t); :}
+    factor.f                {: return f; :}
+    | factor.f MUL term.t   {: return new Mul(f, t); :}
+    | factor.f MOD term.t   {: return new Mod(f, t); :}
     ;
 
 bin_operand =
-    term.t PLUS bin_operand.b {: return new Add(t,b); :}
-    | term.t MINUS bin_operand.b {: return new Sub(t,b); :}
-    | term.t {: return t; :}
+    term.t                          {: return t; :}
+    | term.t PLUS bin_operand.b     {: return new Add(t, b); :}
+    | term.t MINUS bin_operand.b    {: return new Sub(t, b); :}
     ;
 
 expr =
-    bin_operand.e LT bin_operand.b {: return new LessThan(e, b); :}
-    | bin_operand.e GT bin_operand.b {: return new GreaterThan(e, b); :}
-    | bin_operand.e LTEQ bin_operand.b {: return new LessThanEq(e, b); :}
-    | bin_operand.e GTEQ bin_operand.b {: return new GreaterThanEq(e, b); :}
+    bin_operand.e LT bin_operand.b      {: return new LessThan(e, b); :}
+    | bin_operand.e GT bin_operand.b    {: return new GreaterThan(e, b); :}
+    | bin_operand.e LTEQ bin_operand.b  {: return new LessThanEq(e, b); :}
+    | bin_operand.e GTEQ bin_operand.b  {: return new GreaterThanEq(e, b); :}
     | bin_operand.e NOTEQ bin_operand.b {: return new NotEq(e, b); :}
-    | bin_operand.e EQEQ bin_operand.b {: return new Equals(e,b); :}
-    | bin_operand.b {: return b; :}
+    | bin_operand.e EQEQ bin_operand.b  {: return new Equals(e, b); :}
+    | bin_operand.b                     {: return b; :}
     ;
 
-literal = LITERAL.l {: return new Literal(l); :} ;
+literal =
+    LITERAL.l {: return new Literal(l); :}
+    ;
 
-id_use = ID.id {: return new IdUse(id); :} ;
+id_use =
+    ID.id {: return new IdUse(id); :}
+    ;
 
 function_call =
     id_use.id LEFTP expr_list.list RIGHTP {: return new FunctionCall(id, list); :}
@@ -152,7 +158,8 @@ nonempty_expr_list =
     ;
 
 if_stmt =
-    if_block.i else_if_blocks.ie else_stmt.e {: return new IfStmt(i, ie, e); :} ;
+    if_block.i else_if_blocks.ie else_stmt.e {: return new IfStmt(i, ie, e); :}
+    ;
 
 
 if_block =
@@ -168,6 +175,7 @@ else_stmt =
     {: return new Opt(); :}
     | else_block.eb {: return new Opt(eb); :}
     ;
+
 else_block =
     ELSE LEFTB stmts.stmts RIGHTB {: return new ElseBlock(stmts); :}
     ;

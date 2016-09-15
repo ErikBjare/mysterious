@@ -1,5 +1,5 @@
 Program ::= Function*;
-Function ::= IdDecl Params:IdDecl* Block:Stmt*;
+Function ::= <ID:String> <TYPE:String> Params:IdDecl* Block:Stmt*;
 
 
 abstract Stmt;

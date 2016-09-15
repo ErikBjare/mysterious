@@ -1,8 +1,6 @@
 Program
   List
-    Function
-      IdDecl TYPE="int" ID="gcd1"
-        Opt
+    Function TYPE="int" ID="gcd1"
       List
         IdDecl TYPE="int" ID="a"
           Opt
@@ -36,9 +34,7 @@ Program
                         IdUse ID="a"
         Return
           IdUse ID="a"
-    Function
-      IdDecl TYPE="int" ID="gcd2"
-        Opt
+    Function TYPE="int" ID="gcd2"
       List
         IdDecl TYPE="int" ID="a"
           Opt
@@ -63,9 +59,7 @@ Program
               Mod
                 IdUse ID="a"
                 IdUse ID="b"
-    Function
-      IdDecl TYPE="int" ID="main"
-        Opt
+    Function TYPE="int" ID="main"
       List
       List
         IdDecl TYPE="int" ID="a"

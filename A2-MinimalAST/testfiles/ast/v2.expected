@@ -1,8 +1,6 @@
 Program
   List
-    Function
-      IdDecl TYPE="int" ID="a"
-        Opt
+    Function TYPE="int" ID="a"
       List
       List
         IdDecl TYPE="int" ID="x"
