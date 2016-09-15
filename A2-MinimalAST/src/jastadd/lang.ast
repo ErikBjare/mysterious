@@ -17,17 +17,18 @@ ForStmt:Stmt ::= [A:Expr] [B:Expr] [C:Expr] Stmt*;
 
 
 abstract Expr;
-Add:Expr ::= L:Expr R:Expr;
-Mul:Expr ::= L:Expr R:Expr;
-Sub:Expr ::= L:Expr R:Expr;
-Mod:Expr ::= L:Expr R:Expr;
-LessThan:Expr ::= L:Expr R:Expr;
-GreaterThan:Expr ::= L:Expr R:Expr;
-LessThanEq:Expr ::= L:Expr R:Expr;
-GreaterThanEq:Expr ::= L:Expr R:Expr;
-NotEq:Expr ::= L:Expr R:Expr;
-Equals:Expr ::= L:Expr R:Expr;
-
 IdUse:Expr ::= <ID:String>;
 Literal:Expr ::= <LITERAL:String>;
 FunctionCall:Expr ::= Name:IdUse Expr*;
+
+abstract BinExpr:Expr ::= L:Expr R:Expr;
+Add:BinExpr;
+Mul:BinExpr;
+Sub:BinExpr;
+Mod:BinExpr;
+LessThan:BinExpr;
+GreaterThan:BinExpr;
+LessThanEq:BinExpr;
+GreaterThanEq:BinExpr;
+NotEq:BinExpr;
+Equals:BinExpr;
