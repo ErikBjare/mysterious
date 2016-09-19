@@ -1,0 +1,56 @@
+aspect Visitor {
+	/**
+	 * Visitor interface for Calc language. Each concrete node type must
+	 * have a visit method.
+	 */
+	public interface Visitor {
+		public Object visit(List node, Object data);
+		public Object visit(Opt node, Object data);
+		public Object visit(Program node, Object data);
+		public Object visit(Mul node, Object data);
+		public Object visit(Div node, Object data);
+		public Object visit(Numeral node, Object data);
+		public Object visit(IdDecl node, Object data);
+		public Object visit(IdUse node, Object data);
+		public Object visit(Let node, Object data);
+		public Object visit(Binding node, Object data);
+		public Object visit(Ask node, Object data);
+	}
+
+	public Object ASTNode.accept(Visitor visitor, Object data) {
+		throw new Error("Visitor: accept method not available for " + getClass().getName());
+	}
+	public Object List.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+	public Object Opt.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+	public Object Program.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+	public Object Mul.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+	public Object Div.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+	public Object Numeral.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+	public Object IdDecl.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+	public Object IdUse.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+	public Object Let.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+	public Object Binding.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+	public Object Ask.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+}
