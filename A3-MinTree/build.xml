@@ -2,13 +2,13 @@
 	<property name="jar.file" value="compiler.jar" />
 	<property name="main.class" value="lang.Compiler" />
 
-	<property name="lib.dir" location="lib" />
+    <property name="lib.dir" location="../lib" />
 	<property name="src.dir" location="src" />
 	<property name="gen.dir" location="${src.dir}/gen" />
 	<property name="bin.dir" location="ant-bin" />
-	
+
 	<property name="cp.lib" value="${lib.dir}/hamcrest-core-1.3.jar:${lib.dir}/junit-4.11.jar" />
-	
+
 	<taskdef name="jastadd" classname="org.jastadd.JastAddTask"
 		classpath="${lib.dir}/jastadd2.jar" />
 
