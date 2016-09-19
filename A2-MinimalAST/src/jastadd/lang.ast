@@ -21,7 +21,7 @@ IdUse:Expr ::= <ID:String>;
 Literal:Expr ::= <LITERAL:String>;
 FunctionCall:Expr ::= Name:IdUse Expr*;
 
-abstract BinExpr:Expr ::= L:Expr R:Expr;
+abstract BinExpr:Expr ::= Left:Expr Right:Expr;
 Add:BinExpr;
 Mul:BinExpr;
 Sub:BinExpr;
