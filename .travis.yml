@@ -1,4 +1,6 @@
 lang: java
+jdk:
+ - oraclejdk8
 
 install:
  - true
@@ -14,5 +16,11 @@ script:
  - ant; ant test
  - cd ..
  - cd ./A2-MinimalAST
+ - ant; ant test
+ - cd ..
+ - cd ./A3-CalcComp
+ - ant; ant test
+ - cd ..
+ - cd ./A3-MinTree
  - ant; ant test
  - cd ..
