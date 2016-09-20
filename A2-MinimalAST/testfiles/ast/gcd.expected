@@ -1,11 +1,10 @@
 Program
   List
-    Function TYPE="int" ID="gcd1"
+    Function
+      IdDecl ID="gcd1" TYPE="int"
       List
-        IdDecl TYPE="int" ID="a"
-          Opt
-        IdDecl TYPE="int" ID="b"
-          Opt
+        IdDecl ID="a" TYPE="int"
+        IdDecl ID="b" TYPE="int"
       List
         WhileStmt
           NotEq
@@ -34,12 +33,11 @@ Program
                         IdUse ID="a"
         Return
           IdUse ID="a"
-    Function TYPE="int" ID="gcd2"
+    Function
+      IdDecl ID="gcd2" TYPE="int"
       List
-        IdDecl TYPE="int" ID="a"
-          Opt
-        IdDecl TYPE="int" ID="b"
-          Opt
+        IdDecl ID="a" TYPE="int"
+        IdDecl ID="b" TYPE="int"
       List
         IfStmt
           IfBlock
@@ -59,12 +57,15 @@ Program
               Mod
                 IdUse ID="a"
                 IdUse ID="b"
-    Function TYPE="int" ID="main"
+    Function
+      IdDecl ID="main" TYPE="int"
       List
       List
-        IdDecl TYPE="int" ID="a"
+        IdStmt
+          IdDecl ID="a" TYPE="int"
           Opt
-        IdDecl TYPE="int" ID="b"
+        IdStmt
+          IdDecl ID="b" TYPE="int"
           Opt
         Assign
           IdUse ID="a"
@@ -94,7 +95,8 @@ Program
                 List
                   IdUse ID="a"
                   IdUse ID="b"
-        IdDecl TYPE="int" ID="diff"
+        IdStmt
+          IdDecl ID="diff" TYPE="int"
           Opt
             Sub
               FunctionCall

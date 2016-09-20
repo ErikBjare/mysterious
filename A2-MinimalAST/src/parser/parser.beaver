@@ -18,7 +18,8 @@
 
 %typeof stmts = "List";
 %typeof stmt = "Stmt";
-%typeof assign = "Assign";
+%typeof assign = "Stmt";
+%typeof id_stmt = "Stmt";
 
 %typeof expr = "Expr";
 %typeof id_decl = "IdDecl";
@@ -58,7 +59,7 @@ function_list =
     | function_list.fl function.f {: return fl.add(f); :}
     ;
 
-function = TYPE.type ID.id LEFTP parameter_list.params RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(id, type, params, cmds); :} ;
+function = id_decl.id LEFTP parameter_list.params RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(id, params, cmds); :} ;
 
 parameter_list =
     /* epsilon */ {: return new List(); :}
@@ -69,7 +70,7 @@ nonempty_parameter_list =
     | nonempty_parameter_list.list COMMA id_decl.p {: return list.add(p); :} ;
 
 stmt =
-    id_decl.s SEMIC {: return s; :}
+    id_stmt.s SEMIC {: return s; :}
     | assign.s SEMIC {: return s; :}
     | if_stmt.s {: return s; :}
     | while_stmt.s {: return s; :}
@@ -96,7 +97,9 @@ opt_expr =
     | expr.e {: return new Opt(e); :}
     ;
 
-id_decl = TYPE.t ID.id opt_assign.o {: return new IdDecl(id, t, o); :} ;
+id_decl = TYPE.t ID.id {: return new IdDecl(id, t); :} ;
+
+id_stmt = id_decl.id opt_assign.o {: return new IdStmt(id,o); :};
 
 opt_assign =
     {: return new Opt(); :}

@@ -1,10 +1,11 @@
 Program ::= Function*;
-Function ::= <ID:String> <TYPE:String> Params:IdDecl* Block:Stmt*;
+Function ::= IdDecl Params:IdDecl* Block:Stmt*;
 
+IdDecl ::= <ID:String> <TYPE:String>;
 
 abstract Stmt;
-IdDecl:Stmt ::= <ID:String> <TYPE:String> [Expr];
 Assign:Stmt ::= Var:IdUse Expr;
+IdStmt:Stmt ::= IdDecl [Expr];
 Return:Stmt ::= Expr;
 ExpressionStmt:Stmt ::= Expr;
 
