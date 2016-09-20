@@ -1,20 +1,37 @@
 aspect Visitor {
 	/**
-	 * Visitor interface for Calc language. Each concrete node type must
+	 * Visitor interface for MiniC language. Each concrete node type must
 	 * have a visit method.
 	 */
 	public interface Visitor {
 		public Object visit(List node, Object data);
 		public Object visit(Opt node, Object data);
 		public Object visit(Program node, Object data);
-		public Object visit(Add node, Object data);
-		public Object visit(Sub node, Object data);
-		public Object visit(Mul node, Object data);
-		public Object visit(Mod node, Object data);
-		public Object visit(Literal node, Object data);
+		public Object visit(Function node, Object data);
 		public Object visit(IdDecl node, Object data);
+		public Object visit(Assign node, Object data);
+		public Object visit(IdStmt node, Object data);
+		public Object visit(Return node, Object data);
+		public Object visit(ExpressionStmt node, Object data);
+		public Object visit(IfStmt node, Object data);
+		public Object visit(IfBlock node, Object data);
+		public Object visit(ElseBlock node, Object data);
+		public Object visit(WhileStmt node, Object data);
+		public Object visit(ForStmt node, Object data);
 		public Object visit(IdUse node, Object data);
-	}
+		public Object visit(Literal node, Object data);
+		public Object visit(FunctionCall node, Object data);
+		public Object visit(Add node, Object data);
+		public Object visit(Mul node, Object data);
+		public Object visit(Sub node, Object data);
+		public Object visit(Mod node, Object data);
+		public Object visit(LessThan node, Object data);
+		public Object visit(GreaterThan node, Object data);
+		public Object visit(LessThanEq node, Object data);
+		public Object visit(GreaterThanEq node, Object data);
+		public Object visit(NotEq node, Object data);
+		public Object visit(Equals node, Object data);
+}
 
 	public Object ASTNode.accept(Visitor visitor, Object data) {
 		throw new Error("Visitor: accept method not available for " + getClass().getName());
@@ -25,28 +42,132 @@ aspect Visitor {
 	public Object Opt.accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
 	}
+
 	public Object Program.accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
 	}
-	public Object Add.accept(Visitor visitor, Object data) {
+
+
+	public Object Function.accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
 	}
-	public Object Sub.accept(Visitor visitor, Object data) {
-		return visitor.visit(this, data);
-	}
-	public Object Mul.accept(Visitor visitor, Object data) {
-		return visitor.visit(this, data);
-	}
-	public Object Mod.accept(Visitor visitor, Object data) {
-		return visitor.visit(this, data);
-	}
-	public Object Literal.accept(Visitor visitor, Object data) {
-		return visitor.visit(this, data);
-	}
+
+
 	public Object IdDecl.accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
 	}
+
+
+	public Object Assign.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object IdStmt.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object Return.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object ExpressionStmt.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object IfStmt.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object IfBlock.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object ElseBlock.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object WhileStmt.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object ForStmt.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
 	public Object IdUse.accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
 	}
+
+
+	public Object Literal.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object FunctionCall.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object Add.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object Mul.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object Sub.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object Mod.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object LessThan.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object GreaterThan.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object LessThanEq.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object GreaterThanEq.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object NotEq.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+	public Object Equals.accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+
+
+
 }
+
