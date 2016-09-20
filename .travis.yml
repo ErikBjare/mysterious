@@ -21,6 +21,7 @@ script:
  - cd ./A3-CalcComp
  - ant; ant test
  - cd ..
- - cd ./A3-MinTree
- - ant; ant test
- - cd ..
+# Not ready yet
+#- cd ./A3-MinTree
+#- ant; ant test
+#- cd ..
