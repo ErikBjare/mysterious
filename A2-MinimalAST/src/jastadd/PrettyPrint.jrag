@@ -12,6 +12,30 @@ aspect PrettyPrint {
 		}
 	}
 
+	public void Program.prettyPrint(PrintStream out, String ind) {
+		for(int i = 0; i<getNumFunction(); ++i) {
+			getFunction(i).prettyPrint(out, ind);
+			out.println();
+		}
+	}
+
+	public void Function.prettyPrint(PrintStream out, String ind) {
+		getIdDecl().prettyPrint(out,ind);
+		out.print("(");
+		for(int i = 0; i<getNumParams(); ++i) {
+			getParams(i).prettyPrint(out,ind);
+			out.print(", ");
+		}
+		out.println(") {");
+
+		for(int i = 0; i<getNumBlock(); ++i) {
+			out.print(ind + "  ");
+			getBlock(i).prettyPrint(out, ind + "  ");
+			out.println();
+		}
+		out.print(ind + "}");
+	}
+
 	public void Add.prettyPrint(PrintStream out, String ind) {
 		getLeft().prettyPrint(out, ind);
 		out.print(" + ");
@@ -36,6 +60,38 @@ aspect PrettyPrint {
 		getRight().prettyPrint(out, ind);
 	}
 
+	public void LessThan.prettyPrint(PrintStream out, String ind) {
+		getLeft().prettyPrint(out, ind);
+		out.print(" < ");
+		getRight().prettyPrint(out, ind);
+	}
+
+	public void GreaterThan.prettyPrint(PrintStream out, String ind) {
+		getLeft().prettyPrint(out, ind);
+		out.print(" > ");
+		getRight().prettyPrint(out, ind);
+	}
+	public void LessThanEq.prettyPrint(PrintStream out, String ind) {
+		getLeft().prettyPrint(out, ind);
+		out.print(" <= ");
+		getRight().prettyPrint(out, ind);
+	}
+	public void GreaterThanEq.prettyPrint(PrintStream out, String ind) {
+		getLeft().prettyPrint(out, ind);
+		out.print(" >= ");
+		getRight().prettyPrint(out, ind);
+	}
+	public void NotEq.prettyPrint(PrintStream out, String ind) {
+		getLeft().prettyPrint(out, ind);
+		out.print(" != ");
+		getRight().prettyPrint(out, ind);
+	}
+	public void Equals.prettyPrint(PrintStream out, String ind) {
+		getLeft().prettyPrint(out, ind);
+		out.print(" == ");
+		getRight().prettyPrint(out, ind);
+	}
+
 	public void Literal.prettyPrint(PrintStream out, String ind) {
 		out.print(getLITERAL());
 	}
@@ -44,7 +100,108 @@ aspect PrettyPrint {
 		out.print(getID());
 	}
 
-	public void IdDecl.prettyPrint(PrintStream out, String ind) {
-		out.print(getID());
+	public void FunctionCall.prettyPrint(PrintStream out, String ind) {
+		getName().prettyPrint(out, ind);
+		out.print("(");
+		for(int i = 0; i<getNumExpr(); i++) {
+			getExpr(i).prettyPrint(out,ind);
+			if(i<getNumExpr() - 1) out.print(", ");
+		}
+		out.print(")");
 	}
+
+	public void IdDecl.prettyPrint(PrintStream out, String ind) {
+		out.print(getTYPE() + " " + getID());
+	}
+
+	public void Assign.prettyPrint(PrintStream out, String ind) {
+		getVar().prettyPrint(out,ind);
+		out.print(" = ");
+		getExpr().prettyPrint(out, ind);
+		out.print(";");
+	}
+
+	public void IdStmt.prettyPrint(PrintStream out, String ind) {
+		getIdDecl().prettyPrint(out,ind);
+		if(hasExpr()) {
+			out.print(" = ");
+			getExpr().prettyPrint(out,ind);
+		}
+		out.print(";");
+	}
+
+	public void Return.prettyPrint(PrintStream out, String ind) {
+		out.print("return ");
+		getExpr().prettyPrint(out,ind);
+		out.print(";");
+	}
+
+	public void ExpressionStmt.prettyPrint(PrintStream out, String ind) {
+		getExpr().prettyPrint(out,ind);
+		out.print(";");
+	}
+
+	public void ForStmt.prettyPrint(PrintStream out, String ind) {
+		out.print("for(");
+		if(hasA()) {
+			out.print(getA());
+		}
+		out.print("; ");
+		if(hasB()) {
+			out.print(getB());
+		}
+		out.print("; ");
+		if(hasC()) {
+			out.print(getC());
+		}
+		out.println(") {");
+		for (int i = 0; i < getNumStmt(); ++i) {
+			out.print(ind+"  ");
+			getStmt(i).prettyPrint(out, ind+"  ");
+			out.println();
+		}
+		out.print(ind + "}");
+	}
+
+	public void WhileStmt.prettyPrint(PrintStream out, String ind) {
+		out.print("while(");
+		getCondition().prettyPrint(out,ind);
+		out.println(") {");
+		for(int i = 0; i<getNumStmt(); ++i) {
+			out.print(ind + "  ");
+			getStmt(i).prettyPrint(out, ind+"  ");
+			out.println();
+		}
+		out.print(ind + "}");
+	}
+
+	public void IfStmt.prettyPrint(PrintStream out, String ind) {
+		getIfBlock().prettyPrint(out,ind);
+		for(int i = 0; i<getNumElIfBlocks(); ++i) {
+			out.print(" else ");
+			getElIfBlocks(i).prettyPrint(out,ind);
+		}
+		if(hasElseBlock()) getElseBlock().prettyPrint(out,ind);
+	}
+	public void IfBlock.prettyPrint(PrintStream out, String ind) {
+		out.print("if(");
+		getCondition().prettyPrint(out,ind);
+		out.println(") {");
+		for(int i = 0; i<getNumStmt(); ++i) {
+			out.print(ind + "  ");
+			getStmt(i).prettyPrint(out, ind+"  ");
+			out.println();
+		}
+		out.print(ind + "}");
+	}
+	public void ElseBlock.prettyPrint(PrintStream out, String ind) {
+		out.print("else {");
+		for(int i = 0; i<getNumStmt(); ++i) {
+			out.print(ind + "  ");
+			getStmt(i).prettyPrint(out, ind+"  ");
+			out.println();
+		}
+		out.print(ind + "}");
+	}
+
 }
