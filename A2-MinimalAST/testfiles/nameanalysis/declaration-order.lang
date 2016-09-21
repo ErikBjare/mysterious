@@ -1,0 +1,7 @@
+int a() {
+    return b(); // error: b is not yet declared
+}
+
+int b() {
+    return 1;
+}

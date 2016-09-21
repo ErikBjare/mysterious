@@ -28,10 +28,13 @@ aspect NameAnalysis {
 
 		/**
 		 * Attempt to add a new name to the symbol table.
-		 * @return true if name was not already declared
+		 * @return true if name was not already declared in this block
 		 */
 		public boolean declare(String name) {
-			return names.add(name);
+            if(!names.contains(name)) {
+			    return names.add(name);
+            }
+            return false;
 		}
 
 		/**
@@ -79,6 +82,45 @@ aspect NameAnalysis {
 		if (!symbols.lookup(getID())) {
 			err.format("Error at line %d: symbol \'%s\' has not been declared before this use!", getLine(), getID());
 			err.println();
+		}
+	}
+
+    public void Function.checkNames(PrintStream err, SymbolTable symbols) {
+		if (!symbols.declare(getIdDecl().getID())) {
+			err.format("Error at line %d: symbol \'%s\' has not been declared before this use!", getLine(), getIdDecl().getID());
+			err.println();
+        }
+        symbols = symbols.push();
+		for (int i = 0; i < getNumChild(); ++i) {
+			getChild(i).checkNames(err, symbols);
+		}
+	}
+
+    public void IfBlock.checkNames(PrintStream err, SymbolTable symbols) {
+        symbols = symbols.push();
+		for (int i = 0; i < getNumChild(); ++i) {
+			getChild(i).checkNames(err, symbols);
+		}
+	}
+
+    public void ElseBlock.checkNames(PrintStream err, SymbolTable symbols) {
+        symbols = symbols.push();
+		for (int i = 0; i < getNumChild(); ++i) {
+			getChild(i).checkNames(err, symbols);
+		}
+	}
+
+    public void WhileStmt.checkNames(PrintStream err, SymbolTable symbols) {
+        symbols = symbols.push();
+		for (int i = 0; i < getNumChild(); ++i) {
+			getChild(i).checkNames(err, symbols);
+		}
+	}
+
+    public void ForStmt.checkNames(PrintStream err, SymbolTable symbols) {
+        symbols = symbols.push();
+		for (int i = 0; i < getNumChild(); ++i) {
+			getChild(i).checkNames(err, symbols);
 		}
 	}
 
