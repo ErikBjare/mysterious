@@ -20,9 +20,9 @@ aspect PrettyPrint {
 	}
 
 	public void Function.prettyPrint(PrintStream out, String ind) {
-		getIdDecl.prettyPrint(out,ind);
+		getIdDecl().prettyPrint(out,ind);
 		out.print("(");
-		for(int i = 0; i<getNumParmas(); ++i) {
+		for(int i = 0; i<getNumParams(); ++i) {
 			getParams(i).prettyPrint(out,ind);
 			out.print(", ");
 		}
@@ -92,8 +92,8 @@ aspect PrettyPrint {
 		getRight().prettyPrint(out, ind);
 	}
 
-	public void Numeral.prettyPrint(PrintStream out, String ind) {
-		out.print(getNUMERAL());
+	public void Literal.prettyPrint(PrintStream out, String ind) {
+		out.print(getLITERAL());
 	}
 
 	public void IdUse.prettyPrint(PrintStream out, String ind) {
@@ -106,12 +106,18 @@ aspect PrettyPrint {
 
 	public void ForStmt.prettyPrint(PrintStream out, String ind) {
 		out.print("for(");
-		if(hasA()) out.print(getA());
-		out.print("; ")
-		if(hasB()) out.print(getB());
-		out.print("; ")
-		if(hasC()) out.print(getC());
-		out.println(") {")
+		if(hasA()) {
+			out.print(getA());
+		}
+		out.print("; ");
+		if(hasB()) {
+			out.print(getB());
+		}
+		out.print("; ");
+		if(hasC()) {
+			out.print(getC());
+		}
+		out.println(") {");
 		for (int i = 0; i < getNumStmt(); ++i) {
 			out.print(ind+"  ");
 			getStmt(i).prettyPrint(out, ind+"  ");
