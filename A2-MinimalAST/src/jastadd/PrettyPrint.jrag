@@ -30,7 +30,7 @@ aspect PrettyPrint {
 
 		for(int i = 0; i<getNumBlock(); ++i) {
 			out.print(ind + "  ");
-			getBlock(i).prettyPrint(out, ind);
+			getBlock(i).prettyPrint(out, ind + "  ");
 			out.println();
 		}
 		out.print(ind + "}");
@@ -100,8 +100,45 @@ aspect PrettyPrint {
 		out.print(getID());
 	}
 
+	public void FunctionCall.prettyPrint(PrintStream out, String ind) {
+		getName().prettyPrint(out, ind);
+		out.print("(");
+		for(int i = 0; i<getNumExpr(); i++) {
+			getExpr(i).prettyPrint(out,ind);
+			if(i<getNumExpr() - 1) out.print(", ");
+		}
+		out.print(")");
+	}
+
 	public void IdDecl.prettyPrint(PrintStream out, String ind) {
 		out.print(getTYPE() + " " + getID());
+	}
+
+	public void Assign.prettyPrint(PrintStream out, String ind) {
+		getVar().prettyPrint(out,ind);
+		out.print(" = ");
+		getExpr().prettyPrint(out, ind);
+		out.print(";");
+	}
+
+	public void IdStmt.prettyPrint(PrintStream out, String ind) {
+		getIdDecl().prettyPrint(out,ind);
+		if(hasExpr()) {
+			out.print(" = ");
+			getExpr().prettyPrint(out,ind);
+		}
+		out.print(";");
+	}
+
+	public void Return.prettyPrint(PrintStream out, String ind) {
+		out.print("return ");
+		getExpr().prettyPrint(out,ind);
+		out.print(";");
+	}
+
+	public void ExpressionStmt.prettyPrint(PrintStream out, String ind) {
+		getExpr().prettyPrint(out,ind);
+		out.print(";");
 	}
 
 	public void ForStmt.prettyPrint(PrintStream out, String ind) {
@@ -145,7 +182,6 @@ aspect PrettyPrint {
 			getElIfBlocks(i).prettyPrint(out,ind);
 		}
 		if(hasElseBlock()) getElseBlock().prettyPrint(out,ind);
-		out.println();
 	}
 	public void IfBlock.prettyPrint(PrintStream out, String ind) {
 		out.print("if(");
