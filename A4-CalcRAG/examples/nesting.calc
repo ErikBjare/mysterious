@@ -1,0 +1,6 @@
+let
+  a = b
+  b = 3.0
+in
+  a * c
+end
