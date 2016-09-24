@@ -2,6 +2,7 @@ Program ::= Function*;
 Function ::= IdDecl Params:IdDecl* Block:Stmt*;
 
 IdDecl ::= <ID:String> <TYPE:String>;
+UnknownDecl: IdDecl;
 
 abstract Stmt;
 Assign:Stmt ::= Var:IdUse Expr;
