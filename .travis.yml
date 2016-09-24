@@ -6,25 +6,5 @@ install:
  - true
 
 script:
- - cd ./A1-CalcParse
- - ant; ant test
- - cd ..
- - cd ./A1-MiniS
- - ant; ant test
- - cd ..
- - cd ./A2-CalcAST
- - ant; ant test
- - cd ..
- - cd ./A2-MinimalAST
- - ant; ant test
- - cd ..
- - cd ./A3-CalcComp
- - ant; ant test
- - cd ..
- - cd ./A3-MinTree
- - ant; ant test
- - cd ..
- - cd ./A4-CalcRAG
- - ant; ant test
- - cd ..
+ - ./test.sh
 
