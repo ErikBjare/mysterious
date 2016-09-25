@@ -1,5 +1,10 @@
 aspect NameAnalysis {
-
+    syn nta List<IdDecl> Program.predefinedFunctions() {
+        List<IdDecl> list = new List<IdDecl>();
+        list.add(new IdDecl("read","int"));
+        list.add(new IdDecl("print","int"));
+        return list;
+    }
     syn IdDecl IdUse.decl() = lookup(getID());
     inh IdDecl IdUse.lookup(String name);
     
@@ -7,6 +12,11 @@ aspect NameAnalysis {
         for(int i = 0; i < getNumFunction(); i++) {
             if(getFunction(i).getIdDecl().getID().equals(name)) {
                 return getFunction(i).getIdDecl();
+            }
+        }
+        for(IdDecl id : predefinedFunctions()) {
+            if(id.getID().equals(name)) {
+                return id;
             }
         }
         return unknownDecl();
