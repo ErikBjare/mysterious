@@ -84,7 +84,7 @@ expr_stmt =
 
 block =
     {: return new Block(new List()); :}
-    | block.block stmt.s {: return block.getStmtList().add(s); :}
+    | block.block stmt.s {: block.getStmtList().add(s); return block; :}
     ;
 
 for_stmt =
@@ -182,7 +182,6 @@ else_stmt =
 else_block =
     ELSE LEFTB block.stmts RIGHTB {: return new ElseBlock(stmts); :}
     ;
-
 
 while_stmt =
     WHILE LEFTP expr.expr RIGHTP LEFTB block.stmts RIGHTB {: return new WhileStmt(expr, stmts); :}
