@@ -34,6 +34,9 @@ public abstract class TraversingVisitor implements lang.ast.Visitor {
 	public Object visit(Function node, Object data) {
 		return visitChildren(node, data);
 	}
+	public Object visit(Block node, Object data) {
+		return visitChildren(node, data);
+	}
 
 	//Stmts
 	public Object visit(IfStmt node, Object data) {
@@ -64,8 +67,8 @@ public abstract class TraversingVisitor implements lang.ast.Visitor {
 		return visitChildren(node, data);
 	}
 
-	
-	
+
+
 	//Expr
 	public Object visit(Literal node, Object data) {
 		return visitChildren(node, data);
@@ -107,5 +110,5 @@ public abstract class TraversingVisitor implements lang.ast.Visitor {
 	public Object visit(Equals node, Object data) {
 		return visitChildren(node, data);
 	}
-	
+
 }

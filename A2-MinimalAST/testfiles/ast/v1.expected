@@ -3,8 +3,10 @@ Program
     Function
       IdDecl ID="x" TYPE="int"
       List
-      List
+      Block
+        List
     Function
       IdDecl ID="y" TYPE="int"
       List
-      List
+      Block
+        List

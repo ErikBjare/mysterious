@@ -16,7 +16,7 @@
 %typeof function = "Function";
 %typeof function_list = "List";
 
-%typeof stmts = "List";
+%typeof block = "Block";
 %typeof stmt = "Stmt";
 %typeof assign = "Stmt";
 %typeof id_stmt = "Stmt";
@@ -39,7 +39,7 @@
 
 %typeof expr_stmt = "Stmt";
 %typeof if_stmt = "Stmt";
-%typeof if_block = "Stmt";
+%typeof if_block = "IfBlock";
 %typeof else_if_blocks = "List";
 %typeof else_block = "Stmt";
 %typeof else_stmt = "Opt";
@@ -59,7 +59,7 @@ function_list =
     | function_list.fl function.f {: return fl.add(f); :}
     ;
 
-function = id_decl.id LEFTP parameter_list.params RIGHTP LEFTB stmts.cmds RIGHTB {: return new Function(id, params, cmds); :} ;
+function = id_decl.id LEFTP parameter_list.params RIGHTP LEFTB block.cmds RIGHTB {: return new Function(id, params, cmds); :} ;
 
 parameter_list =
     /* epsilon */ {: return new List(); :}
@@ -82,13 +82,13 @@ stmt =
 expr_stmt =
     expr.e SEMIC {: return new ExpressionStmt(e); :};
 
-stmts =
-    {: return new List(); :}
-    | stmts.list stmt.s {: return list.add(s); :}
+block =
+    {: return new Block(new List()); :}
+    | block.block stmt.s {: block.getStmtList().add(s); return block; :}
     ;
 
 for_stmt =
-    FOR LEFTP opt_expr.a SEMIC opt_expr.b SEMIC opt_expr.c LEFTB stmts.cmds RIGHTB
+    FOR LEFTP opt_expr.a SEMIC opt_expr.b SEMIC opt_expr.c LEFTB block.cmds RIGHTB
     {: return new ForStmt(a, b, c, cmds); :}
     ;
 
@@ -166,7 +166,7 @@ if_stmt =
 
 
 if_block =
-    IF LEFTP expr.expr RIGHTP LEFTB stmts.stmts RIGHTB {: return new IfBlock(expr, stmts); :}
+    IF LEFTP expr.expr RIGHTP LEFTB block.stmts RIGHTB {: return new IfBlock(expr, stmts); :}
     ;
 
 else_if_blocks =
@@ -180,11 +180,10 @@ else_stmt =
     ;
 
 else_block =
-    ELSE LEFTB stmts.stmts RIGHTB {: return new ElseBlock(stmts); :}
+    ELSE LEFTB block.stmts RIGHTB {: return new ElseBlock(stmts); :}
     ;
 
-
 while_stmt =
-    WHILE LEFTP expr.expr RIGHTP LEFTB stmts.stmts RIGHTB {: return new WhileStmt(expr, stmts); :}
+    WHILE LEFTP expr.expr RIGHTP LEFTB block.stmts RIGHTB {: return new WhileStmt(expr, stmts); :}
     ;
 

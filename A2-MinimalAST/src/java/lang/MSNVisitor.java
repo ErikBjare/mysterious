@@ -9,16 +9,7 @@ public class MSNVisitor extends TraversingVisitor{
         }
         return maxdepth;
     }
-    public Object visit(IfStmt node, Object data) {
-        return visitChildren(node, (Integer) data + 1);
-    }
-    public Object visit(WhileStmt node, Object data) {
-        return visitChildren(node, (Integer) data + 1);
-    }
-    public Object visit(ForStmt node, Object data) {
-        return visitChildren(node, (Integer) data + 1);
-    }
-    public Object visit(Function node, Object data) {
+    public Object visit(Block node, Object data) {
         return visitChildren(node, (Integer) data + 1);
     }
 }

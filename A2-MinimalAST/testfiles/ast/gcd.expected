@@ -5,114 +5,121 @@ Program
       List
         IdDecl ID="a" TYPE="int"
         IdDecl ID="b" TYPE="int"
-      List
-        WhileStmt
-          NotEq
-            IdUse ID="a"
-            IdUse ID="b"
-          List
-            IfStmt
-              IfBlock
-                GreaterThan
-                  IdUse ID="a"
-                  IdUse ID="b"
-                List
-                  Assign
-                    IdUse ID="a"
-                    Sub
+      Block
+        List
+          WhileStmt
+            NotEq
+              IdUse ID="a"
+              IdUse ID="b"
+            Block
+              List
+                IfStmt
+                  IfBlock
+                    GreaterThan
                       IdUse ID="a"
                       IdUse ID="b"
-              List
-              Opt
-                ElseBlock
+                    Block
+                      List
+                        Assign
+                          IdUse ID="a"
+                          Sub
+                            IdUse ID="a"
+                            IdUse ID="b"
                   List
-                    Assign
-                      IdUse ID="b"
-                      Sub
-                        IdUse ID="b"
-                        IdUse ID="a"
-        Return
-          IdUse ID="a"
+                  Opt
+                    ElseBlock
+                      Block
+                        List
+                          Assign
+                            IdUse ID="b"
+                            Sub
+                              IdUse ID="b"
+                              IdUse ID="a"
+          Return
+            IdUse ID="a"
     Function
       IdDecl ID="gcd2" TYPE="int"
       List
         IdDecl ID="a" TYPE="int"
         IdDecl ID="b" TYPE="int"
-      List
-        IfStmt
-          IfBlock
-            Equals
-              IdUse ID="b"
-              Literal LITERAL="0"
-            List
-              Return
-                IdUse ID="a"
-          List
-          Opt
-        Return
-          FunctionCall
-            IdUse ID="gcd2"
-            List
-              IdUse ID="b"
-              Mod
-                IdUse ID="a"
+      Block
+        List
+          IfStmt
+            IfBlock
+              Equals
                 IdUse ID="b"
+                Literal LITERAL="0"
+              Block
+                List
+                  Return
+                    IdUse ID="a"
+            List
+            Opt
+          Return
+            FunctionCall
+              IdUse ID="gcd2"
+              List
+                IdUse ID="b"
+                Mod
+                  IdUse ID="a"
+                  IdUse ID="b"
     Function
       IdDecl ID="main" TYPE="int"
       List
-      List
-        IdStmt
-          IdDecl ID="a" TYPE="int"
-          Opt
-        IdStmt
-          IdDecl ID="b" TYPE="int"
-          Opt
-        Assign
-          IdUse ID="a"
-          FunctionCall
-            IdUse ID="read"
-            List
-        Assign
-          IdUse ID="b"
-          FunctionCall
-            IdUse ID="read"
-            List
-        ExpressionStmt
-          FunctionCall
-            IdUse ID="print"
-            List
-              FunctionCall
-                IdUse ID="gcd1"
-                List
-                  IdUse ID="a"
-                  IdUse ID="b"
-        ExpressionStmt
-          FunctionCall
-            IdUse ID="print"
-            List
-              FunctionCall
-                IdUse ID="gcd2"
-                List
-                  IdUse ID="a"
-                  IdUse ID="b"
-        IdStmt
-          IdDecl ID="diff" TYPE="int"
-          Opt
-            Sub
-              FunctionCall
-                IdUse ID="gcd1"
-                List
-                  IdUse ID="a"
-                  IdUse ID="b"
-              FunctionCall
-                IdUse ID="gcd2"
-                List
-                  IdUse ID="a"
-                  IdUse ID="b"
-        ExpressionStmt
-          FunctionCall
-            IdUse ID="print"
-            List
-              IdUse ID="diff"
-        Return
-          Literal LITERAL="0"
+      Block
+        List
+          IdStmt
+            IdDecl ID="a" TYPE="int"
+            Opt
+          IdStmt
+            IdDecl ID="b" TYPE="int"
+            Opt
+          Assign
+            IdUse ID="a"
+            FunctionCall
+              IdUse ID="read"
+              List
+          Assign
+            IdUse ID="b"
+            FunctionCall
+              IdUse ID="read"
+              List
+          ExpressionStmt
+            FunctionCall
+              IdUse ID="print"
+              List
+                FunctionCall
+                  IdUse ID="gcd1"
+                  List
+                    IdUse ID="a"
+                    IdUse ID="b"
+          ExpressionStmt
+            FunctionCall
+              IdUse ID="print"
+              List
+                FunctionCall
+                  IdUse ID="gcd2"
+                  List
+                    IdUse ID="a"
+                    IdUse ID="b"
+          IdStmt
+            IdDecl ID="diff" TYPE="int"
+            Opt
+              Sub
+                FunctionCall
+                  IdUse ID="gcd1"
+                  List
+                    IdUse ID="a"
+                    IdUse ID="b"
+                FunctionCall
+                  IdUse ID="gcd2"
+                  List
+                    IdUse ID="a"
+                    IdUse ID="b"
+          ExpressionStmt
+            FunctionCall
+              IdUse ID="print"
+              List
+                IdUse ID="diff"
+          Return
+            Literal LITERAL="0"

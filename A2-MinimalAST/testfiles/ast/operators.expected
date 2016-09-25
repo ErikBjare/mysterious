@@ -3,24 +3,25 @@ Program
     Function
       IdDecl ID="main" TYPE="int"
       List
-      List
-        IdStmt
-          IdDecl ID="x" TYPE="int"
-          Opt
-        IdStmt
-          IdDecl ID="y" TYPE="int"
-          Opt
-        Assign
-          IdUse ID="x"
-          Sub
-            Literal LITERAL="2"
-            Literal LITERAL="1"
-        Assign
-          IdUse ID="y"
-          Add
-            Mul
-              IdUse ID="x"
-              Mod
-                Literal LITERAL="5"
-                Literal LITERAL="3"
-            Literal LITERAL="1"
+      Block
+        List
+          IdStmt
+            IdDecl ID="x" TYPE="int"
+            Opt
+          IdStmt
+            IdDecl ID="y" TYPE="int"
+            Opt
+          Assign
+            IdUse ID="x"
+            Sub
+              Literal LITERAL="2"
+              Literal LITERAL="1"
+          Assign
+            IdUse ID="y"
+            Add
+              Mul
+                IdUse ID="x"
+                Mod
+                  Literal LITERAL="5"
+                  Literal LITERAL="3"
+              Literal LITERAL="1"
