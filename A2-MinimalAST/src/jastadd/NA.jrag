@@ -2,7 +2,15 @@ aspect NameAnalysis {
 
     syn IdDecl IdUse.decl() = lookup(getID());
     inh IdDecl IdUse.lookup(String name);
-    
+
+    syn nta List<Function> Program.predefinedFunctions() {
+        List<Function> l = new List();
+        l.add(new Function(new IdDecl("print", "void"),
+                              new List<IdDecl>(),
+                              new Block()));
+        return l;
+    }
+
     eq Program.getChild().lookup(String name){
         for(int i = 0; i < getNumFunction(); i++) {
             if(getFunction(i).getIdDecl().getID().equals(name)) {
@@ -12,22 +20,37 @@ aspect NameAnalysis {
         return unknownDecl();
     }
 
-    inh IdDecl Function.lookup(String name);
+    /*
+     * Function lookup
+     */
 
-    eq Function.getBlock(int index).lookup(String name) {
-        IdDecl decl = localLookup(name, index);
+    inh IdDecl Function.lookup(String name);
+    eq Function.getBlock().lookup(String name) {
+        IdDecl decl = localLookup(name);
         return !decl.isUnknown() ? decl : lookup(name);
     }
-
-    syn IdDecl Function.localLookup(String name, int until) {
+    syn IdDecl Function.localLookup(String name) {
         for (int i = 0; i < getNumParams(); i++) {
             if (getParams(i).getID().equals(name)) {
                 return getParams(i);
             }
         }
+        return unknownDecl();
+    }
+
+    /*
+     *  Block lookup
+     */
+
+    inh IdDecl Block.lookup(String name);
+    eq Block.getStmt(int index).lookup(String name) {
+        IdDecl decl = localLookup(name, index);
+        return !decl.isUnknown() ? decl : lookup(name);
+    }
+    syn IdDecl Block.localLookup(String name, int until) {
         for(int i = 0; i<= until; i++) {
-            if(getBlock(i) instanceof IdStmt) {
-                IdStmt stmt = ((IdStmt) getBlock(i));
+            if(getStmt(i) instanceof IdStmt) {
+                IdStmt stmt = ((IdStmt) getStmt(i));
                 if(stmt.getIdDecl().getID().equals(name)) {
                     return stmt.getIdDecl();
                 }
@@ -35,8 +58,8 @@ aspect NameAnalysis {
         }
         return unknownDecl();
     }
-    
-    
+
+
 
     inh IdDecl IdDecl.lookup(String name);
     syn boolean IdDecl.isMultiplyDeclared() = lookup(getID()) != this;

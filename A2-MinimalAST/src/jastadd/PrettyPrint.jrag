@@ -28,11 +28,8 @@ aspect PrettyPrint {
 		}
 		out.println(") {");
 
-		for(int i = 0; i<getNumBlock(); ++i) {
-			out.print(ind + "  ");
-			getBlock(i).prettyPrint(out, ind + "  ");
-			out.println();
-		}
+        getBlock().prettyPrint(out, ind);
+
 		out.print(ind + "}");
 	}
 
@@ -155,11 +152,9 @@ aspect PrettyPrint {
 			out.print(getC());
 		}
 		out.println(") {");
-		for (int i = 0; i < getNumStmt(); ++i) {
-			out.print(ind+"  ");
-			getStmt(i).prettyPrint(out, ind+"  ");
-			out.println();
-		}
+
+        getBlock().prettyPrint(out, ind);
+
 		out.print(ind + "}");
 	}
 
@@ -167,11 +162,9 @@ aspect PrettyPrint {
 		out.print("while(");
 		getCondition().prettyPrint(out,ind);
 		out.println(") {");
-		for(int i = 0; i<getNumStmt(); ++i) {
-			out.print(ind + "  ");
-			getStmt(i).prettyPrint(out, ind+"  ");
-			out.println();
-		}
+
+        getBlock().prettyPrint(out, ind);
+
 		out.print(ind + "}");
 	}
 
@@ -187,21 +180,23 @@ aspect PrettyPrint {
 		out.print("if(");
 		getCondition().prettyPrint(out,ind);
 		out.println(") {");
-		for(int i = 0; i<getNumStmt(); ++i) {
-			out.print(ind + "  ");
-			getStmt(i).prettyPrint(out, ind+"  ");
-			out.println();
-		}
+
+        getBlock().prettyPrint(out, ind);
+
 		out.print(ind + "}");
 	}
 	public void ElseBlock.prettyPrint(PrintStream out, String ind) {
-		out.print("else {");
-		for(int i = 0; i<getNumStmt(); ++i) {
-			out.print(ind + "  ");
-			getStmt(i).prettyPrint(out, ind+"  ");
-			out.println();
-		}
+		out.println("else {");
+        getBlock().prettyPrint(out, ind);
 		out.print(ind + "}");
 	}
+
+    public void Block.prettyPrint(PrintStream out, String ind) {
+		for(int i = 0; i<getNumStmt(); ++i) {
+			out.print(ind + "  ");
+			getStmt(i).prettyPrint(out, ind + "  ");
+			out.println();
+		}
+    }
 
 }

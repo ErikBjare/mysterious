@@ -1,5 +1,7 @@
 Program ::= Function*;
-Function ::= IdDecl Params:IdDecl* Block:Stmt*;
+Function ::= IdDecl Params:IdDecl* Block;
+
+Block ::= Stmt*;
 
 IdDecl ::= <ID:String> <TYPE:String>;
 UnknownDecl: IdDecl;
@@ -10,12 +12,12 @@ IdStmt:Stmt ::= IdDecl [Expr];
 Return:Stmt ::= Expr;
 ExpressionStmt:Stmt ::= Expr;
 
-IfStmt:Stmt ::= IfBlock:Stmt ElIfBlocks:Stmt* [ElseBlock:Stmt];
-IfBlock:Stmt ::= Condition:Expr Stmt*;
-ElseBlock:Stmt ::= Stmt*;
+IfStmt:Stmt ::= IfBlock ElIfBlocks:Stmt* [ElseBlock];
+IfBlock:Stmt ::= Condition:Expr Block;
+ElseBlock:Stmt ::= Block;
 
-WhileStmt:Stmt ::= Condition:Expr Stmt*;
-ForStmt:Stmt ::= [A:Expr] [B:Expr] [C:Expr] Stmt*;
+WhileStmt:Stmt ::= Condition:Expr Block;
+ForStmt:Stmt ::= [A:Expr] [B:Expr] [C:Expr] Block;
 
 
 abstract Expr;
