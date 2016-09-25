@@ -3,16 +3,17 @@ Program
     Function
       IdDecl ID="a" TYPE="int"
       List
-      List
-        IdStmt
-          IdDecl ID="x" TYPE="int"
-          Opt
-        IdStmt
-          IdDecl ID="y" TYPE="int"
-          Opt
-        Assign
-          IdUse ID="x"
-          Literal LITERAL="5"
-        Assign
-          IdUse ID="y"
-          IdUse ID="x"
+      Block
+        List
+          IdStmt
+            IdDecl ID="x" TYPE="int"
+            Opt
+          IdStmt
+            IdDecl ID="y" TYPE="int"
+            Opt
+          Assign
+            IdUse ID="x"
+            Literal LITERAL="5"
+          Assign
+            IdUse ID="y"
+            IdUse ID="x"

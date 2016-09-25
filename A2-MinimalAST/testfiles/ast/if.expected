@@ -3,19 +3,21 @@ Program
     Function
       IdDecl ID="x" TYPE="int"
       List
-      List
-        IdStmt
-          IdDecl ID="a" TYPE="int"
-          Opt
-        Assign
-          IdUse ID="a"
-          Literal LITERAL="1"
-        IfStmt
-          IfBlock
+      Block
+        List
+          IdStmt
+            IdDecl ID="a" TYPE="int"
+            Opt
+          Assign
             IdUse ID="a"
+            Literal LITERAL="1"
+          IfStmt
+            IfBlock
+              IdUse ID="a"
+              Block
+                List
+                  Assign
+                    IdUse ID="a"
+                    Literal LITERAL="2"
             List
-              Assign
-                IdUse ID="a"
-                Literal LITERAL="2"
-          List
-          Opt
+            Opt
