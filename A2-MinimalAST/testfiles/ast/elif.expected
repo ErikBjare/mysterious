@@ -27,4 +27,3 @@ Program
                   IdDecl ID="a" TYPE="int"
                   Opt
                     Literal LITERAL="5"
-

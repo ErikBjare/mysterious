@@ -1,19 +1,17 @@
 package tests;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import java.io.PrintStream;
-import java.io.ByteArrayOutputStream;
+import lang.ast.ErrorMessage;
 import lang.ast.Program;
-import lang.ast.Program;
-import lang.TraversingVisitor;
 
 /**
- * Tests MSNVisitor
+ * Tests name analysis
  */
 @RunWith(Parameterized.class)
 public class TestNameAnalysis extends AbstractParameterizedTest {
@@ -24,10 +22,10 @@ public class TestNameAnalysis extends AbstractParameterizedTest {
 
 	/**
 	 * Construct a new JastAdd test
-	 * @param testFile filename of test input file
+	 * @param filename filename of test input file
 	 */
-	public TestNameAnalysis(String testFile) {
-		super(TEST_DIR, testFile);
+	public TestNameAnalysis(String filename) {
+		super(TEST_DIR, filename);
 	}
 
 	/**
@@ -36,11 +34,11 @@ public class TestNameAnalysis extends AbstractParameterizedTest {
 	@Test
 	public void runTest() throws Exception {
 		Program program = (Program) parse(inFile);
-
-        ByteArrayOutputStream byos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(byos);
-        program.checkNames(ps);
-		compareOutput(byos.toString(), outFile, expectedFile);
+		StringBuilder sb = new StringBuilder();
+		for (ErrorMessage m: program.errors()) {
+			sb.append(m).append("\n");
+		}
+		compareOutput(sb.toString(), outFile, expectedFile);
 	}
 
 	@SuppressWarnings("javadoc")

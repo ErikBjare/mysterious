@@ -1,7 +1,3 @@
 int a() {
-    return b(); // error: b is not yet declared
-}
-
-int b() {
-    return 1;
+    return b(); // error: b is not declared
 }
