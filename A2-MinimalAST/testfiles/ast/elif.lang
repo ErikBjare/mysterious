@@ -1,0 +1,9 @@
+int main() {
+    if(1) {
+        main();
+    } else if(2) {
+        main();
+    } else {
+        int a = 5;
+    }
+}

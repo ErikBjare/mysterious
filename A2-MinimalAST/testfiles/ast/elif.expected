@@ -1,0 +1,30 @@
+Program
+  List
+    Function
+      IdDecl ID="main" TYPE="int"
+      List
+      List
+        IfStmt
+          IfBlock
+            Literal LITERAL="1"
+            List
+              ExpressionStmt
+                FunctionCall
+                  IdUse ID="main"
+                  List
+          List
+            IfBlock
+              Literal LITERAL="2"
+              List
+                ExpressionStmt
+                  FunctionCall
+                    IdUse ID="main"
+                    List
+          Opt
+            ElseBlock
+              List
+                IdStmt
+                  IdDecl ID="a" TYPE="int"
+                  Opt
+                    Literal LITERAL="5"
+
