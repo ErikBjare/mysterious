@@ -11,16 +11,17 @@ aspect NameAnalysis {
     inh IdDecl IdUse.lookup(String name);
 
     eq Program.getChild().lookup(String name){
-        for(int i = 0; i < getNumFunction(); i++) {
-            if(getFunction(i).getIdDecl().getID().equals(name)) {
-                return getFunction(i).getIdDecl();
-            }
-        }
         for(IdDecl id : predefinedFunctions()) {
             if(id.getID().equals(name)) {
                 return id;
             }
         }
+        for(int i = 0; i < getNumFunction(); i++) {
+            if(getFunction(i).getIdDecl().getID().equals(name)) {
+                return getFunction(i).getIdDecl();
+            }
+        }
+        
         return unknownDecl();
     }
 
