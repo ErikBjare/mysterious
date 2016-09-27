@@ -6,33 +6,38 @@ Block ::= Stmt*;
 IdDecl ::= <ID:String> <TYPE:String>;
 UnknownDecl: IdDecl;
 
+abstract Type;
+IntType: Type;
+BoolType: Type;
+UnknownType: Type;
+
 abstract Stmt;
-Assign:Stmt ::= Var:IdUse Expr;
-IdStmt:Stmt ::= IdDecl [Expr];
-Return:Stmt ::= Expr;
-ExpressionStmt:Stmt ::= Expr;
+Assign: Stmt ::= Var:IdUse Expr;
+IdStmt: Stmt ::= IdDecl [Expr];
+Return: Stmt ::= Expr;
+ExpressionStmt: Stmt ::= Expr;
 
-IfStmt:Stmt ::= IfBlock ElIfBlocks:Stmt* [ElseBlock];
-IfBlock:Stmt ::= Condition:Expr Block;
-ElseBlock:Stmt ::= Block;
+IfStmt: Stmt ::= IfBlock ElIfBlocks:Stmt* [ElseBlock];
+IfBlock: Stmt ::= Condition:Expr Block;
+ElseBlock: Stmt ::= Block;
 
-WhileStmt:Stmt ::= Condition:Expr Block;
-ForStmt:Stmt ::= [A:Expr] [B:Expr] [C:Expr] Block;
+WhileStmt: Stmt ::= Condition:Expr Block;
+ForStmt: Stmt ::= [A:Expr] [B:Expr] [C:Expr] Block;
 
 
 abstract Expr;
-IdUse:Expr ::= <ID:String>;
-Literal:Expr ::= <LITERAL:String>;
-FunctionCall:Expr ::= Name:IdUse Expr*;
+IdUse: Expr ::= <ID:String>;
+Literal: Expr ::= <LITERAL:String>;
+FunctionCall: Expr ::= Name:IdUse Expr*;
 
-abstract BinExpr:Expr ::= Left:Expr Right:Expr;
-Add:BinExpr;
-Mul:BinExpr;
-Sub:BinExpr;
-Mod:BinExpr;
-LessThan:BinExpr;
-GreaterThan:BinExpr;
-LessThanEq:BinExpr;
-GreaterThanEq:BinExpr;
-NotEq:BinExpr;
-Equals:BinExpr;
+abstract BinExpr: Expr ::= Left:Expr Right:Expr;
+Add: BinExpr;
+Mul: BinExpr;
+Sub: BinExpr;
+Mod: BinExpr;
+LessThan: BinExpr;
+GreaterThan: BinExpr;
+LessThanEq: BinExpr;
+GreaterThanEq: BinExpr;
+NotEq: BinExpr;
+Equals: BinExpr;
