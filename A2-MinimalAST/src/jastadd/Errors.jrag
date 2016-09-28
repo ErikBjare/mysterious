@@ -16,7 +16,7 @@ aspect Errors {
 		public String toString() {
 			return "Error at line " + lineNumber + ": " + message;
 		}
-	} 
+	}
 	protected ErrorMessage ASTNode.error(String message) {
 		return new ErrorMessage(message, getLine(getStart()));
 	}
@@ -29,15 +29,25 @@ aspect Errors {
 
 
 aspect ErrorContributions {
+
+    // Declaration errors
 	IdUse contributes error("symbol '" + getID() + "' is not declared")
 		when decl().isUnknown()
 		to Program.errors() for program();
-
 	IdDecl contributes error("symbol '" + getID() + "' is already declared!")
 		when isMultiplyDeclared()
 		to Program.errors() for program();
 	IdUse contributes error("the definition of symbol '" + getID() + "' is circular")
 		when isCircular()
+		to Program.errors() for program();
+
+    // Type errors
+    // TODO: Assign doesn't work...
+    IdStmt contributes error("Expression is not compatible with integer type.")
+		when hasExpr() && !intType().compatibleType(getExpr().type())
+		to Program.errors() for program();
+    Assign contributes error("Expression is not compatible with integer type.")
+		when !intType().compatibleType(getExpr().type())
 		to Program.errors() for program();
 	WhileStmt contributes error("Expression is not compatible with boolean type.")
 		when !boolType().compatibleType(getCondition().type())
@@ -45,4 +55,5 @@ aspect ErrorContributions {
 	IfBlock contributes error("Expression is not compatible with boolean type.")
 		when !boolType().compatibleType(getCondition().type())
 		to Program.errors() for program();
+
 }

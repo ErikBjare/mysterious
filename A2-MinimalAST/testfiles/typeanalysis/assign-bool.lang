@@ -1,0 +1,4 @@
+int main() {
+    // Should fail
+    int a = 1 == 2;
+}
