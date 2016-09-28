@@ -24,7 +24,11 @@ aspect TypeAnalysis {
 
     Type IntBinExpr.type() { return intType(); }
     Type BoolBinExpr.type() { return boolType(); }
+    Type IdUse.type() { return intType(); }
+    Type FunctionCall.type() { return intType(); }
+    Type Literal.type() { return intType(); }
 
+    Type Expr.type() { return unknownType(); }
 
     //syn boolean IdDecl.type() = false;
     //eq UnknownDecl.isUnknown() = true;

@@ -39,4 +39,10 @@ aspect ErrorContributions {
 	IdUse contributes error("the definition of symbol '" + getID() + "' is circular")
 		when isCircular()
 		to Program.errors() for program();
+	WhileStmt contributes error("Expression is not compatible with boolean type.")
+		when !boolType().compatibleType(getCondition().type())
+		to Program.errors() for program();
+	IfBlock contributes error("Expression is not compatible with boolean type.")
+		when !boolType().compatibleType(getCondition().type())
+		to Program.errors() for program();
 }
