@@ -31,13 +31,16 @@ Literal: Expr ::= <LITERAL:String>;
 FunctionCall: Expr ::= Name:IdUse Expr*;
 
 abstract BinExpr: Expr ::= Left:Expr Right:Expr;
-Add: BinExpr;
-Mul: BinExpr;
-Sub: BinExpr;
-Mod: BinExpr;
-LessThan: BinExpr;
-GreaterThan: BinExpr;
-LessThanEq: BinExpr;
-GreaterThanEq: BinExpr;
-NotEq: BinExpr;
-Equals: BinExpr;
+abstract IntBinExpr:BinExpr;
+abstract BoolBinExpr:BinExpr;
+
+Add: IntBinExpr;
+Mul: IntBinExpr;
+Sub: IntBinExpr;
+Mod: IntBinExpr;
+LessThan: BoolBinExpr;
+GreaterThan: BoolBinExpr;
+LessThanEq: BoolBinExpr;
+GreaterThanEq: BoolBinExpr;
+NotEq: BoolBinExpr;
+Equals: BoolBinExpr;

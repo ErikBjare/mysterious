@@ -1,5 +1,7 @@
 aspect TypeAnalysis {
     syn nta UnknownType Program.unknownType() = new UnknownType();
+    syn nta IntType Program.intType() = new IntType();
+    syn nta BoolType Program.boolType() = new BoolType();
 
     abstract boolean Type.compatibleType(Type t);
 
@@ -15,6 +17,14 @@ aspect TypeAnalysis {
 
     inh Type ASTNode.unknownType();
     eq Program.getChild().unknownType() = unknownType();
+    inh Type ASTNode.intType();
+    eq Program.getChild().intType() = intType();
+    inh Type ASTNode.boolType();
+    eq Program.getChild().boolType() = boolType();
+
+    Type IntBinExpr.type() { return intType(); }
+    Type BoolBinExpr.type() { return boolType(); }
+
 
     //syn boolean IdDecl.type() = false;
     //eq UnknownDecl.isUnknown() = true;
