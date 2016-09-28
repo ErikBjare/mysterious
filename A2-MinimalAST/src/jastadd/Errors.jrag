@@ -42,7 +42,6 @@ aspect ErrorContributions {
 		to Program.errors() for program();
 
     // Type errors
-    // TODO: Assign doesn't work...
     IdStmt contributes error("Expression is not compatible with integer type.")
 		when hasExpr() && !intType().compatibleType(getExpr().type())
 		to Program.errors() for program();
