@@ -1,0 +1,18 @@
+aspect TypeAnalysis {
+    syn nta UnknownType Program.unknownType() = new UnknownType();
+
+    boolean Type.compatibleType(Type t) {
+        return this instanceof UnknownType
+            || t instanceof UnknownType
+            // FIXME: Overly lenient
+            || t instanceof Type;
+    }
+
+    syn boolean IntType.compatibleType() = new UnknownType();
+
+    inh Type ASTNode.unknownType();
+    eq Program.getChild().unknownType() = unknownType();
+
+    syn boolean IdDecl.type() = false;
+    eq UnknownDecl.isUnknown() = true;
+}
