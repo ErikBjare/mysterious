@@ -6,11 +6,14 @@ aspect TypeAnalysis {
     abstract boolean Type.compatibleType(Type t);
 
     boolean IntType.compatibleType(Type t) {
-        return (t instanceof UnknownType) || (t instanceof IntType);
+        return t.isUnknown() || t == this;
     }
 
+    syn boolean Type.isUnknown() = false;
+    eq UnknownType.isUnknown() = true;
+
     boolean BoolType.compatibleType(Type t) {
-        return (t instanceof UnknownType) || (t instanceof BoolType);
+        return t.isUnknown() || t == this;
     }
 
     boolean UnknownType.compatibleType(Type t) { return true; }
