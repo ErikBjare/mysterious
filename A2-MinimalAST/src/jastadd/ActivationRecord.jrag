@@ -1,0 +1,9 @@
+aspect ActivationRecord {
+    public void Program.eval() { throw new RuntimeException(); }
+    public int Function.eval(ActivationRecord actrec) { throw new RuntimeException(); }
+    public void Stmt.eval(ActivationRecord actrec) { throw new RuntimeException(); }
+    public int Expr.eval(ActivationRecord actrec) { throw new RuntimeException(); }
+    public class ActivationRecord {
+        
+    }
+}
