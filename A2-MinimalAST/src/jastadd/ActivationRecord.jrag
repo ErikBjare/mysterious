@@ -1,9 +1,19 @@
 aspect ActivationRecord {
-    public void Program.eval() { throw new RuntimeException(); }
+    public void Program.eval() {
+        for(Function f: getFunctionList()) {
+            if(f.getIdDecl().getID().equals("main")) {
+                f.eval(new ActivationRecord());
+                return;
+            }
+        }
+        throw new RuntimeException(); 
+    }
     public int Function.eval(ActivationRecord actrec) { throw new RuntimeException(); }
     public void Stmt.eval(ActivationRecord actrec) { throw new RuntimeException(); }
     public int Expr.eval(ActivationRecord actrec) { throw new RuntimeException(); }
     public class ActivationRecord {
-        
+        public ActivationRecord() {
+
+        }
     }
 }
