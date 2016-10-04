@@ -1,6 +1,7 @@
 package lang;
 import lang.ast.Program;
 import java.io.File;
+import lang.Compiler;
 
 public class Interpreter {
     public static void main(String args[]) {

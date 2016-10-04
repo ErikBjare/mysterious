@@ -8,9 +8,41 @@ aspect ActivationRecord {
         }
         throw new RuntimeException(); 
     }
-    public int Function.eval(ActivationRecord actrec) { throw new RuntimeException(); }
-    public void Stmt.eval(ActivationRecord actrec) { throw new RuntimeException(); }
+    public int Function.eval(ActivationRecord actrec) { 
+        return getBlock().eval(actrec);
+    }
+    public int Block.eval(ActivationRecord actrec) { 
+        //System.out.println(getNumStmt());
+        for(Stmt s: getStmtList()) {
+            //System.out.println(s.getClass().getName());
+            s.eval(actrec);
+        }
+        return 0;
+    } 
+
+    public int Stmt.eval(ActivationRecord actrec)  { throw new RuntimeException(); }
+    
+    public int Assign.eval(ActivationRecord actrec) {
+        System.out.println(getExpr().eval(actrec));
+        return -1;
+    }
+    public int IdStmt.eval(ActivationRecord actrec) {
+        if(hasExpr()) System.out.println(getExpr().eval(actrec));
+        return -1;
+    }
     public int Expr.eval(ActivationRecord actrec) { throw new RuntimeException(); }
+    
+    public int Literal.eval(ActivationRecord actrec) {
+        return Integer.parseInt(getLITERAL());
+    }
+
+    public int Add.eval(ActivationRecord actrec) {
+        return getLeft().eval(actrec) + getRight().eval(actrec);
+    }
+    public int Mul.eval(ActivationRecord actrec) {
+        return getLeft().eval(actrec) * getRight().eval(actrec);
+    }
+
     public class ActivationRecord {
         public ActivationRecord() {
 

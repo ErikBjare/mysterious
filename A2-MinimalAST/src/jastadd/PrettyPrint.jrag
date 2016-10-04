@@ -28,7 +28,7 @@ aspect PrettyPrint {
 		}
 		out.println(") {");
 
-        getBlock().prettyPrint(out, ind);
+        		getBlock().prettyPrint(out, ind);
 
 		out.print(ind + "}");
 	}
