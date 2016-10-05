@@ -1,3 +1,4 @@
+import java.util.HashMap;
 aspect ActivationRecord {
     public void Program.eval() {
         for(Function f: getFunctionList()) {
@@ -10,12 +11,13 @@ aspect ActivationRecord {
     }
     public int Function.eval(ActivationRecord actrec) { 
         int r = getBlock().eval(actrec);
-        System.out.println(getIdDecl().getID());
-        return r;
+        if(actrec.hasR()) return actrec.getR();
+        else return 0;
     }
     public int Block.eval(ActivationRecord actrec) { 
         //System.out.println(getNumStmt());
         for(Stmt s: getStmtList()) {
+            if(actrec.hasR()) return 0;
             //System.out.println(s.getClass().getName());
             s.eval(actrec);
         }
@@ -25,11 +27,15 @@ aspect ActivationRecord {
     public int Stmt.eval(ActivationRecord actrec)  { throw new RuntimeException(); }
     
     public int Assign.eval(ActivationRecord actrec) {
-        System.out.println(getExpr().eval(actrec));
+        actrec.put(getVar().getID(), getExpr().eval(actrec));
+        //System.out.println(getExpr().eval(actrec));
         return -1;
     }
     public int IdStmt.eval(ActivationRecord actrec) {
-        if(hasExpr()) System.out.println(getExpr().eval(actrec));
+        if(hasExpr()) {
+            actrec.put(getIdDecl().getID(), getExpr().eval(actrec));
+            //System.out.println(getExpr().eval(actrec));
+        }
         return -1;
     }
 
@@ -43,23 +49,35 @@ aspect ActivationRecord {
         return Integer.parseInt(getLITERAL());
     }
 
+    public int Return.eval(ActivationRecord actrec) {
+        actrec.put("return", getExpr().eval(actrec));
+        return 0;
+    }
+
+    public int IdUse.eval(ActivationRecord actrec) {
+        return actrec.get(getID());
+    }
+
     public int FunctionCall.eval(ActivationRecord actrec) {
-        ActivationRecord ar = new ActivationRecord();
-        for(Expr e: getExprList()) {
-            ar.add(e.eval(actrec));
-        }
         IdDecl Fdecl = getName().decl();
+
         for(IdDecl id: predefinedFunctions()) {
             if(Fdecl == id){
-                if(Fdecl.getID().equals("print")) System.out.println(ar.value);
+                if(Fdecl.getID().equals("print")) System.out.println(getExpr(0).eval(actrec));
                 return 0;
             }
         }
+        
         for(Function f: functions()) {
             if(f.getIdDecl() == Fdecl) {
+                ActivationRecord ar = new ActivationRecord();
+                for(int i = 0; i<f.getNumParams(); ++i) {
+                    ar.put(f.getParams(i).getID(), getExpr(i).eval(actrec));
+                }
                 return f.eval(ar);
             }
         }
+
         return 0;
     }
 
@@ -72,12 +90,22 @@ aspect ActivationRecord {
     }
 
     public class ActivationRecord {
-        int value;
+        HashMap<String,Integer> map = new HashMap<>();
         public ActivationRecord() {
 
         }
-        public void add(int i) {
-            value = i;
+        public void put(String s, int i) {
+            map.put(s,i);
         }
+        public int get(String s) {
+            return map.get(s);
+        }
+        public boolean hasR() {
+            return map.containsKey("return");
+        }
+        public int getR() {
+            return map.get("return");
+        }
+
     }
 }
