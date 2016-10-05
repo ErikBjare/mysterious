@@ -30,10 +30,33 @@ aspect ActivationRecord {
         if(hasExpr()) System.out.println(getExpr().eval(actrec));
         return -1;
     }
+
+    public int ExpressionStmt.eval(ActivationRecord actrec) {
+        return getExpr().eval(actrec);
+    }
+
     public int Expr.eval(ActivationRecord actrec) { throw new RuntimeException(); }
     
     public int Literal.eval(ActivationRecord actrec) {
         return Integer.parseInt(getLITERAL());
+    }
+
+    public int FunctionCall.eval(ActivationRecord actrec) {
+        ActivationRecord ar = new ActivationRecord();
+        for(Expr e: getExprList()) {
+            ar.add(e.eval(actrec));
+        }
+        return getName().decl().eval(ar);
+    }
+
+    public int IdDecl.eval(ActivationRecord actrec) {
+        for(IdDecl id: predefinedFunctions()) {
+            if(this == id){
+                if(this.getID().equals("print")) System.out.println(actrec.value);
+                return 0;
+            }
+        }
+        return 0;
     }
 
     public int Add.eval(ActivationRecord actrec) {
@@ -44,8 +67,12 @@ aspect ActivationRecord {
     }
 
     public class ActivationRecord {
+        int value;
         public ActivationRecord() {
 
+        }
+        public void add(int i) {
+            value = i;
         }
     }
 }

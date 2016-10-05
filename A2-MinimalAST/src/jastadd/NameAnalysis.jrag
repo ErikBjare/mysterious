@@ -6,6 +6,8 @@ aspect NameAnalysis {
         list.add(new IdDecl("print","int"));
         return list;
     }
+    inh List<IdDecl> ASTNode.predefinedFunctions();
+    eq Program.getChild().predefinedFunctions() = predefinedFunctions();
 
     syn IdDecl IdUse.decl() = lookup(getID());
     inh IdDecl IdUse.lookup(String name);
