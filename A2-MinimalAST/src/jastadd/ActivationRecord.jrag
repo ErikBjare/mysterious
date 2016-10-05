@@ -9,7 +9,9 @@ aspect ActivationRecord {
         throw new RuntimeException(); 
     }
     public int Function.eval(ActivationRecord actrec) { 
-        return getBlock().eval(actrec);
+        int r = getBlock().eval(actrec);
+        System.out.println(getIdDecl().getID());
+        return r;
     }
     public int Block.eval(ActivationRecord actrec) { 
         //System.out.println(getNumStmt());
@@ -46,18 +48,21 @@ aspect ActivationRecord {
         for(Expr e: getExprList()) {
             ar.add(e.eval(actrec));
         }
-        return getName().decl().eval(ar);
-    }
-
-    public int IdDecl.eval(ActivationRecord actrec) {
+        IdDecl Fdecl = getName().decl();
         for(IdDecl id: predefinedFunctions()) {
-            if(this == id){
-                if(this.getID().equals("print")) System.out.println(actrec.value);
+            if(Fdecl == id){
+                if(Fdecl.getID().equals("print")) System.out.println(ar.value);
                 return 0;
+            }
+        }
+        for(Function f: functions()) {
+            if(f.getIdDecl() == Fdecl) {
+                return f.eval(ar);
             }
         }
         return 0;
     }
+
 
     public int Add.eval(ActivationRecord actrec) {
         return getLeft().eval(actrec) + getRight().eval(actrec);
