@@ -98,6 +98,13 @@ aspect ActivationRecord {
         else return -1;
     }
 
+    public int WhileStmt.eval(ActivationRecord actrec) {
+        while(getCondition().eval(actrec) == 1) {
+            getBlock().eval(actrec);
+        }
+        return 0;
+    }
+
     public int Equals.eval(ActivationRecord actrec) {
         return getLeft().eval(actrec) == getRight().eval(actrec)? 1 : 0;
     }
