@@ -85,8 +85,14 @@ aspect ActivationRecord {
     public int Add.eval(ActivationRecord actrec) {
         return getLeft().eval(actrec) + getRight().eval(actrec);
     }
+    public int Sub.eval(ActivationRecord actrec) {
+        return getLeft().eval(actrec) - getRight().eval(actrec);
+    }
     public int Mul.eval(ActivationRecord actrec) {
         return getLeft().eval(actrec) * getRight().eval(actrec);
+    }
+    public int Mod.eval(ActivationRecord actrec) {
+        return getLeft().eval(actrec) % getRight().eval(actrec);
     }
 
     public class ActivationRecord {
