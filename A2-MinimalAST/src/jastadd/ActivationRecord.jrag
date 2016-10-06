@@ -1,13 +1,16 @@
 import java.util.HashMap;
 aspect ActivationRecord {
-    public void Program.eval() {
+    public Function Program.main() {
         for(Function f: getFunctionList()) {
             if(f.getIdDecl().getID().equals("main")) {
-                f.eval(new ActivationRecord());
-                return;
+                return f;
             }
         }
         throw new RuntimeException();
+    }
+
+    public void Program.eval() {
+        main().eval(new ActivationRecord());
     }
     public int Function.eval(ActivationRecord actrec) {
         int r = getBlock().eval(actrec);

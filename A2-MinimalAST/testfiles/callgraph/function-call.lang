@@ -1,0 +1,13 @@
+int main() {
+    theAnswer();
+    theOtherAnswer();
+}
+
+int theAnswer() {
+    print(42);
+}
+
+int theOtherAnswer() {
+    int a = theAnswer();
+    print(a*2);
+}
