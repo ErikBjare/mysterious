@@ -82,6 +82,7 @@ aspect ActivationRecord {
     }
 
 
+    // Arithmetic operations
     public int Add.eval(ActivationRecord actrec) {
         return getLeft().eval(actrec) + getRight().eval(actrec);
     }
@@ -94,6 +95,24 @@ aspect ActivationRecord {
     public int Mod.eval(ActivationRecord actrec) {
         return getLeft().eval(actrec) % getRight().eval(actrec);
     }
+
+    // Boolean operations
+    public int LessThan.eval(ActivationRecord actrec) {
+        return getLeft().eval(actrec) < getRight().eval(actrec) ? 1 : 0;
+    }
+    public int LessThanEq.eval(ActivationRecord actrec) {
+        return getLeft().eval(actrec) <= getRight().eval(actrec) ? 1 : 0;
+    }
+    public int GreaterThan.eval(ActivationRecord actrec) {
+        return getLeft().eval(actrec) > getRight().eval(actrec) ? 1 : 0;
+    }
+    public int GreaterThanEq.eval(ActivationRecord actrec) {
+        return getLeft().eval(actrec) >= getRight().eval(actrec) ? 1 : 0;
+    }
+    public int NotEq.eval(ActivationRecord actrec) {
+        return getLeft().eval(actrec) != getRight().eval(actrec) ? 1 : 0;
+    }
+
 
     public class ActivationRecord {
         HashMap<String,Integer> map = new HashMap<>();
