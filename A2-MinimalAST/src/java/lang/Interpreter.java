@@ -1,17 +1,18 @@
 package lang;
 import lang.ast.Program;
+import lang.ast.ErrorMessage;
 import java.io.File;
 import lang.Compiler;
 
 public class Interpreter {
     public static void main(String args[]) {
-        Program p;
+        Program program;
         try {
-            p = Compiler.compile(new File(args[0]));
+            program = Compiler.compile(new File(args[0]));
         } catch (Exception e) {
             System.out.println(e);
             return;
         }
-        p.eval();
+        program.eval();
     }
 }
