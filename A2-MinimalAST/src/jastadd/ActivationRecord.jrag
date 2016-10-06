@@ -104,6 +104,7 @@ aspect ActivationRecord {
     public int WhileStmt.eval(ActivationRecord actrec) {
         while(getCondition().eval(actrec) == 1) {
             getBlock().eval(actrec);
+            if(actrec.hasR()) break;
         }
         return 0;
     }
@@ -144,12 +145,12 @@ aspect ActivationRecord {
 
     // Shadowing
     syn String IdDecl.uniqueName() {
-        return globalName() + "_" + getID();
+        return globalName() + getID();
     }
     inh String IdDecl.globalName();
 
     eq Block.Stmt(int i).globalName() {
-        return globalName() + "_" + i;
+        return globalName() + i + "_";
     }
     inh String Block.globalName();
 
