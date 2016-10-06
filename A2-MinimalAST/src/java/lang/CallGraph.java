@@ -17,13 +17,25 @@ public class CallGraph {
             return;
         }
 
+        StringBuilder sb = new StringBuilder();
+        sb.append("digraph G {\n");
         for(Function func : program.getFunctionList()) {
-            System.out.println("Current function: " + func.getIdDecl().getID());
+            String from = func.getIdDecl().getID();
             Set<Function> s = func.functionCalls();
             for(Function calledFunc : s) {
-                System.out.println("    " + calledFunc.getIdDecl().getID());
+                String to = calledFunc.getIdDecl().getID();
+                sb.append("    " + from + " -> " + to + ";\n");
+            }
+            for(Function reachableFunc : func.reachableFunctions()) {
+                if(!s.contains(reachableFunc)) {
+                    sb.append("    " + from + " -> " + reachableFunc.getIdDecl().getID() + " [style=dotted];\n");
+                }
             }
         }
+        sb.append("}");
+
+
+        System.out.println(sb);
 
     }
 }

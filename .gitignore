@@ -5,3 +5,4 @@ ant-bin
 *.swp
 *.out
 compiler.jar
+*.pdf

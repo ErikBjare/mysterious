@@ -1,3 +1,4 @@
+import java.util.Set;
 import java.util.HashSet;
 
 aspect CallGraph {
@@ -27,4 +28,15 @@ aspect CallGraph {
         }
     }
 
+    // Reachable functions
+    syn Set<Function> Function.reachableFunctions() circular [new HashSet()];
+
+    eq Function.reachableFunctions() {
+        Set s = new HashSet();
+        for(Function f : functionCalls()) {
+            s.add(f);
+            s.addAll(f.reachableFunctions());
+        }
+        return s;
+    }
 }
