@@ -3,6 +3,11 @@ ant-bin
 /*.jar
 */*.jar
 *.swp
-*.out
 compiler.jar
 *.pdf
+
+// Test output
+*.out
+*.o
+*.s
+*.elf
