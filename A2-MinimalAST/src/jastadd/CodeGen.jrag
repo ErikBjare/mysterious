@@ -39,7 +39,7 @@ aspect CodeGen {
 		out.println("        movq %rsp, %rbp");
         getBlock().genCode(out, getIdDecl().getID());
 
-		out.println(uName + "_0_done:");
+		out.println(uName + "_done:");
         out.println("        popq %rbp");
         out.println("        ret");
     }
@@ -52,8 +52,23 @@ aspect CodeGen {
         return;
     }
 
+    public void IdStmt.genCode(PrintStream out, String uName) {
+        if(hasExpr()) {
+            getExpr().genEval(out);
+        } else {
+            out.println("        movq $0, %rax");
+        }
+        out.println("        movq %rax, " + getIdDecl().address());
+    }
+
+    public void Assign.genCode(PrintStream out, String uName) {
+        getExpr().genEval(out);
+        out.println("        movq %rax, " + getVar().decl().address());
+    }
+
     public void Return.genCode(PrintStream out, String uName) {
         getExpr().genEval(out);
+        uName = uName.substring(0,uName.indexOf('_'));
         out.println("        jmp " + uName + "_done");
     }
 

@@ -1,0 +1,6 @@
+int main() {
+    int a = 1;
+    int b = 1;
+    a = 4;
+    return a;
+}
