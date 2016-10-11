@@ -5,24 +5,64 @@ aspect CodeGen {
 
     public void Program.genCode(PrintStream out) {
         out.println(".global _start");
+        out.println(".data");
+        out.println("buf: .skip 1024");
+        out.println();
+
         // etc.
+        out.println(".text");
         out.println("_start:");
-        // call main function
-        for (Function decl: getFunctionList()) {
-            decl.genCode(out);
-        }
+
+        out.println("        pushq %rbp");
+        out.println("        movq %rsp, %rbp");
+        out.println("        call main");
+
         // call sys_exit
 		out.println("        movq $0, %rdi");
 		out.println("        movq $60, %rax");
 		out.println("        syscall");
 
+        // call main function
+        for (Function decl: getFunctionList()) {
+            decl.genCode(out);
+        }
+
         // helper procedures (print/read)
         genHelpers(out);
-
     }
 
     public void Function.genCode(PrintStream out) {
-        // your code here
+        // TODO: What if function doesn't have a return stmt?
+        String uName = getIdDecl().getID();
+		out.println(uName + ":");
+		out.println("        pushq %rbp");
+		out.println("        movq %rsp, %rbp");
+        getBlock().genCode(out, getIdDecl().getID());
+
+		out.println(uName + "_0_done:");
+        out.println("        popq %rbp");
+        out.println("        ret");
+    }
+
+    /**
+     * Statements.
+     */
+
+    public void Stmt.genCode(PrintStream out, String uName) {
+        return;
+    }
+
+    public void Return.genCode(PrintStream out, String uName) {
+        getExpr().genEval(out);
+        out.println("        jmp " + uName + "_done");
+    }
+
+    public void Block.genCode(PrintStream out, String uName) {
+        int i = 0;
+        for(Stmt s : getStmtList()) {
+            s.genCode(out, uName + "_" + i);
+            i++;
+        }
     }
 
 	/**
