@@ -54,6 +54,7 @@ COMMENT = "//" [^\n\r]*
 ">"          { return sym(Terminals.GT); }
 ">="          { return sym(Terminals.GTEQ); }
 "*"           { return sym(Terminals.MUL); }
+"/"           { return sym(Terminals.DIV); }
 "+"          { return sym(Terminals.PLUS); }
 "%"         { return sym(Terminals.MOD); }
 "-"           { return sym(Terminals.MINUS); }

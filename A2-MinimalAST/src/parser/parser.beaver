@@ -9,7 +9,7 @@
     }
 :};
 
-%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, EQEQ, NOTEQ, LT, LTEQ, GT, GTEQ, LITERAL, SEMIC, MUL, PLUS, MOD, MINUS, COMMA, WHILE, IF, ELSE, FOR, RETURN;
+%terminals ID, TYPE, LEFTP, RIGHTP, LEFTB, RIGHTB, EQ, EQEQ, NOTEQ, LT, LTEQ, GT, GTEQ, LITERAL, SEMIC, MUL, DIV, PLUS, MOD, MINUS, COMMA, WHILE, IF, ELSE, FOR, RETURN;
 
 %typeof program = "Program";
 
@@ -119,6 +119,7 @@ factor =
 term =
     factor.f                {: return f; :}
     | factor.f MUL term.t   {: return new Mul(f, t); :}
+    | factor.f DIV term.t   {: return new Div(f, t); :}
     | factor.f MOD term.t   {: return new Mod(f, t); :}
     ;
 

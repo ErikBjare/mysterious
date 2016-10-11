@@ -3,6 +3,24 @@
  */
 aspect CodeGen {
 
+    public void Program.genCode(PrintStream out) {
+        out.println(".global _start");
+        // etc.
+        out.println("_start:");
+        // call main function
+        for (Function decl: getFunctionList()) {
+            decl.genCode(out);
+        }
+        // call sys_exit
+        // helper procedures (print/read)
+    }
+
+    public void Function.genCode(PrintStream out) {
+        // your code here
+    }
+
+
+    /*
 	public void Program.genCode(PrintStream out) {
 		out.println(".global _start");
 		out.println(".data");
@@ -18,7 +36,7 @@ aspect CodeGen {
 		out.println("        movq %rsp, %rbp");
 		out.println("        subq $" + (getExpr().numLocals()*8) + ", %rsp");
 
-		getExpr().genEval(out);// stores result in RAX
+		getExpr().genEval(out); // stores result in RAX
 
 
 		// print result:
@@ -108,6 +126,7 @@ aspect CodeGen {
 		out.println("        popq %rbp");
 		out.println("        ret");
 	}
+    */
 
 	/**
  	 * Generate code to evaluate the expression and
@@ -115,10 +134,12 @@ aspect CodeGen {
  	 *
  	 * This must be implemented for every subclass of Expr!
  	 */
+
+    // TODO!
 	abstract public void Expr.genEval(PrintStream out);
 
-	public void Numeral.genEval(PrintStream out) {
-		out.println("        movq $" + getNUMERAL() + ", %rax");
+	public void Literal.genEval(PrintStream out) {
+		out.println("        movq $" + getLITERAL() + ", %rax");
 	}
 
 	public void IdUse.genEval(PrintStream out) {
@@ -144,6 +165,102 @@ aspect CodeGen {
 		out.println("        idivq %rbx");
 	}
 
+    // TODO!
+	public void Mod.genEval(PrintStream out) {
+		getLeft().genEval(out);
+		out.println("        pushq %rax");
+		getRight().genEval(out);
+		out.println("        movq %rax, %rbx");
+		out.println("        popq %rax");
+		out.println("        movq $0, %rdx");// NB: clear RDX to prepare division RDX:RAX / RBX
+		out.println("        idivq %rbx");
+	}
+
+	public void Add.genEval(PrintStream out) {
+		getLeft().genEval(out);
+		out.println("        pushq %rax");
+		getRight().genEval(out);
+		out.println("        movq %rax, %rbx");
+		out.println("        popq %rax");
+		out.println("        iaddq %rbx, %rax");
+	}
+
+	public void Sub.genEval(PrintStream out) {
+		getLeft().genEval(out);
+		out.println("        pushq %rax");
+		getRight().genEval(out);
+		out.println("        movq %rax, %rbx");
+		out.println("        popq %rax");
+		out.println("        isubq %rbx, %rax");
+	}
+
+    // TODO!
+	public void Equals.genEval(PrintStream out) {
+		getLeft().genEval(out);
+		out.println("        pushq %rax");
+		getRight().genEval(out);
+		out.println("        movq %rax, %rbx");
+		out.println("        popq %rax");
+		out.println("        isubq %rbx, %rax");
+	}
+
+    // TODO!
+	public void NotEq.genEval(PrintStream out) {
+		getLeft().genEval(out);
+		out.println("        pushq %rax");
+		getRight().genEval(out);
+		out.println("        movq %rax, %rbx");
+		out.println("        popq %rax");
+		out.println("        isubq %rbx, %rax");
+	}
+
+    // TODO!
+	public void GreaterThan.genEval(PrintStream out) {
+		getLeft().genEval(out);
+		out.println("        pushq %rax");
+		getRight().genEval(out);
+		out.println("        movq %rax, %rbx");
+		out.println("        popq %rax");
+		out.println("        isubq %rbx, %rax");
+	}
+
+    // TODO!
+	public void GreaterThanEq.genEval(PrintStream out) {
+		getLeft().genEval(out);
+		out.println("        pushq %rax");
+		getRight().genEval(out);
+		out.println("        movq %rax, %rbx");
+		out.println("        popq %rax");
+		out.println("        isubq %rbx, %rax");
+	}
+
+    // TODO!
+	public void LessThan.genEval(PrintStream out) {
+		getLeft().genEval(out);
+		out.println("        pushq %rax");
+		getRight().genEval(out);
+		out.println("        movq %rax, %rbx");
+		out.println("        popq %rax");
+		out.println("        isubq %rbx, %rax");
+	}
+
+    // TODO!
+	public void LessThanEq.genEval(PrintStream out) {
+		getLeft().genEval(out);
+		out.println("        pushq %rax");
+		getRight().genEval(out);
+		out.println("        movq %rax, %rbx");
+		out.println("        popq %rax");
+		out.println("        isubq %rbx, %rax");
+	}
+
+    // TODO!
+	public void FunctionCall.genEval(PrintStream out) {
+		out.println("        FunctionCall not implemented");
+	}
+
+    // TODO!
+    /*
 	public void Let.genEval(PrintStream out) {
 		// evaluate bindings:
 		for (int i = 0; i < getNumBinding(); ++i) {
@@ -151,7 +268,10 @@ aspect CodeGen {
 		}
 		getExpr().genEval(out);
 	}
+    */
 
+    // TODO!
+    /*
 	public void Ask.genEval(PrintStream out) {
 		out.println("        pushq ask_msg_len");
 		out.println("        pushq $ask_message");
@@ -159,11 +279,15 @@ aspect CodeGen {
 		out.println("        addq $16, %rsp");
 		out.println("        call read");
 	}
+    */
 
+    // TODO!
+    /*
 	public void Binding.genCode(PrintStream out) {
 		getExpr().genEval(out);
 		out.println("        movq %rax, " + getIdDecl().address());
 	}
+    */
 
 	/**
  	 * Address of local variable variable in the current stack frame.

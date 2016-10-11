@@ -35,8 +35,9 @@ abstract IntBinExpr:BinExpr;
 abstract BoolBinExpr:BinExpr;
 
 Add: IntBinExpr;
-Mul: IntBinExpr;
 Sub: IntBinExpr;
+Mul: IntBinExpr;
+Div: IntBinExpr;
 Mod: IntBinExpr;
 LessThan: BoolBinExpr;
 GreaterThan: BoolBinExpr;
