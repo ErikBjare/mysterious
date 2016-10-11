@@ -18,7 +18,7 @@ aspect CodeGen {
         out.println("        call main");
 
         // call sys_exit
-		out.println("        movq $0, %rdi");
+		out.println("        movq %rax, %rdi");
 		out.println("        movq $60, %rax");
 		out.println("        syscall");
 
