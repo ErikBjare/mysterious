@@ -90,6 +90,10 @@ aspect CodeGen {
     // TODO!
 	abstract public void Expr.genEval(PrintStream out);
 
+    public void FunctionCall.genEval(PrintStream out) {
+        out.println("        call " + getName().getID());
+    }
+
 	public void Literal.genEval(PrintStream out) {
 		out.println("        movq $" + getLITERAL() + ", %rax");
 	}
@@ -207,11 +211,6 @@ aspect CodeGen {
 	}
 
     // TODO!
-	public void FunctionCall.genEval(PrintStream out) {
-		out.println("        FunctionCall not implemented");
-	}
-
-    // TODO!
     /*
 	public void Let.genEval(PrintStream out) {
 		// evaluate bindings:
@@ -255,7 +254,7 @@ aspect CodeGen {
  	 * Local variable numbering.
  	 */
 	syn int ASTNode.localIndex() = prevNode().localIndex();
-	eq Program.localIndex() = 0;
+	eq Function.localIndex() = -1;
 	eq IdDecl.localIndex() = prevNode().localIndex() + 1;
 
 	inh ASTNode ASTNode.prevNode();
