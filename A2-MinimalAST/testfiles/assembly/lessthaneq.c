@@ -4,9 +4,6 @@ int main() {
                 i = i+1;
         }
 
-        //if(i == 11) {
-                return 0;
-        //} else {
-        //        return 1;
-        //}
+        print(i); // Should be 11
+        return 0;
 }

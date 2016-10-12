@@ -3,6 +3,7 @@ int main() {
         while(i < 10) {
                 i = i+1;
         }
+
         print(i); // Should be 10
         return 0;
 }
