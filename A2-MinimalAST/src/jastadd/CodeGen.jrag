@@ -87,7 +87,7 @@ aspect CodeGen {
         getCondition().genEval(out);
         out.println(" " + el);
         getBlock().genCode(out, uName);
-        out.println("jmp " + sl);
+        out.println("        jmp " + sl);
         out.println(el + ": ");
     }
 	/**
