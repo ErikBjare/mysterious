@@ -13,8 +13,6 @@ aspect CodeGen {
         out.println(".text");
         out.println("_start:");
 
-        out.println("        pushq %rbp");
-        out.println("        movq %rsp, %rbp");
         out.println("        call main");
 
         // call sys_exit
@@ -40,6 +38,7 @@ aspect CodeGen {
         getBlock().genCode(out, getIdDecl().getID());
 
 		out.println(uName + "_done:");
+        out.println("        movq %rbp, %rsp");
         out.println("        popq %rbp");
         out.println("        ret");
     }
@@ -52,13 +51,17 @@ aspect CodeGen {
         return;
     }
 
+    public void ExpressionStmt.genCode(PrintStream out, String uName) {
+        getExpr().genEval(out);
+    }
+
     public void IdStmt.genCode(PrintStream out, String uName) {
         if(hasExpr()) {
             getExpr().genEval(out);
         } else {
             out.println("        movq $0, %rax");
         }
-        out.println("        movq %rax, " + getIdDecl().address());
+        out.println("        pushq %rax");
     }
 
     public void Assign.genCode(PrintStream out, String uName) {
@@ -101,7 +104,14 @@ aspect CodeGen {
 	abstract public void Expr.genEval(PrintStream out);
 
     public void FunctionCall.genEval(PrintStream out) {
+        for(int i = getNumExpr() - 1; i>=0; i--) {
+            getExpr(i).genEval(out);
+            out.println("        pushq %rax");
+        }
         out.println("        call " + getName().getID());
+        for(int i = getNumExpr() - 1; i>=0; i--) {
+            out.println("        popq %rbx");
+        }
     }
 
 	public void Literal.genEval(PrintStream out) {
