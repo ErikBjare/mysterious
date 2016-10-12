@@ -80,6 +80,16 @@ aspect CodeGen {
         }
     }
 
+    public void WhileStmt.genCode(PrintStream out, String uName) {
+        String sl = "while_" + uName;
+        String el = "end" + sl;
+        out.println(sl + ": ");
+        getCondition().genEval(out);
+        out.println(" " + el);
+        getBlock().genCode(out, uName);
+        out.println("jmp " + sl);
+        out.println(el + ": ");
+    }
 	/**
  	 * Generate code to evaluate the expression and
  	 * store the result in RAX.
@@ -130,6 +140,7 @@ aspect CodeGen {
 		out.println("        popq %rax");
 		out.println("        movq $0, %rdx");// NB: clear RDX to prepare division RDX:RAX / RBX
 		out.println("        idivq %rbx");
+		out.println("        movq %rdx, %rax"); //Moves remainder to RAX.
 	}
 
 	public void Add.genEval(PrintStream out) {
@@ -138,7 +149,7 @@ aspect CodeGen {
 		getRight().genEval(out);
 		out.println("        movq %rax, %rbx");
 		out.println("        popq %rax");
-		out.println("        iaddq %rbx, %rax");
+		out.println("        addq %rbx, %rax");
 	}
 
 	public void Sub.genEval(PrintStream out) {
@@ -147,7 +158,7 @@ aspect CodeGen {
 		getRight().genEval(out);
 		out.println("        movq %rax, %rbx");
 		out.println("        popq %rax");
-		out.println("        isubq %rbx, %rax");
+		out.println("        subq %rbx, %rax");
 	}
 
     // TODO!
@@ -157,7 +168,8 @@ aspect CodeGen {
 		getRight().genEval(out);
 		out.println("        movq %rax, %rbx");
 		out.println("        popq %rax");
-		out.println("        isubq %rbx, %rax");
+		out.println("        cmp %rbx, %rax");
+		out.print("        jne");
 	}
 
     // TODO!
@@ -167,7 +179,8 @@ aspect CodeGen {
 		getRight().genEval(out);
 		out.println("        movq %rax, %rbx");
 		out.println("        popq %rax");
-		out.println("        isubq %rbx, %rax");
+		out.println("        cmp %rbx, %rax");
+		out.print("        je");
 	}
 
     // TODO!
@@ -177,7 +190,8 @@ aspect CodeGen {
 		getRight().genEval(out);
 		out.println("        movq %rax, %rbx");
 		out.println("        popq %rax");
-		out.println("        isubq %rbx, %rax");
+		out.println("        cmp %rbx, %rax");
+		out.print("       jle");
 	}
 
     // TODO!
@@ -187,17 +201,19 @@ aspect CodeGen {
 		getRight().genEval(out);
 		out.println("        movq %rax, %rbx");
 		out.println("        popq %rax");
-		out.println("        isubq %rbx, %rax");
+		out.println("        cmp %rbx, %rax");
+		out.print("        jl");
 	}
 
-    // TODO!
+    // TODO! prints jump instruction, but where will be decided by parent.
 	public void LessThan.genEval(PrintStream out) {
 		getLeft().genEval(out);
 		out.println("        pushq %rax");
 		getRight().genEval(out);
 		out.println("        movq %rax, %rbx");
 		out.println("        popq %rax");
-		out.println("        isubq %rbx, %rax");
+		out.println("        cmp %rbx, %rax");
+		out.print("        jge");
 	}
 
     // TODO!
@@ -207,7 +223,8 @@ aspect CodeGen {
 		getRight().genEval(out);
 		out.println("        movq %rax, %rbx");
 		out.println("        popq %rax");
-		out.println("        isubq %rbx, %rax");
+		out.println("        cmp %rbx, %rax");
+		out.print("        jg");
 	}
 
     // TODO!
