@@ -2,5 +2,6 @@ int f() {
     return 2;
 }
 int main() {
-    return f();
+    print(f());
+    return 0;
 }
