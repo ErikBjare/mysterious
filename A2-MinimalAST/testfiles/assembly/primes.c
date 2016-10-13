@@ -8,6 +8,7 @@ int main() {
         }
         p = p + 1;
     }
+    return 0;
 }
 int isPrime(int p) {
     int i = 2;
