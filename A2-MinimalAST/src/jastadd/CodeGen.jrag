@@ -270,7 +270,7 @@ aspect CodeGen {
 	/**
  	 * Address of local variable variable in the current stack frame.
  	 */
-	syn String IdDecl.address() = "-"+(localIndex()*8)+"(%rbp)";
+	syn String IdDecl.address() = "" + (-localIndex()*8)+"(%rbp)";
 
 	/**
  	 * Local variable counting.
@@ -281,9 +281,14 @@ aspect CodeGen {
  	 * Local variable numbering.
  	 */
 	syn int ASTNode.localIndex() = prevNode().localIndex();
-	eq Function.localIndex() = -1;
-	eq IdDecl.localIndex() = prevNode().localIndex() + 1;
-
+	inh int Block.localIndex();
+	inh int IdDecl.localIndex();
+	eq UnknownDecl.localIndex() = 0;
+	eq Function.getBlock().localIndex() = 0;
+	eq IdStmt.getIdDecl().localIndex() = localIndex() + 1;
+	eq Function.getParams(int i).localIndex() = -(2+i);
+	eq Function.getIdDecl().localIndex() = 0;
+	eq Program.localIndex() = 0;
 	inh ASTNode ASTNode.prevNode();
 	eq ASTNode.getChild(int i).prevNode() = prevNode(i);
 	syn ASTNode ASTNode.lastNode() = prevNode(getNumChild());
