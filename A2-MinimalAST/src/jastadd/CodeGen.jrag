@@ -93,6 +93,32 @@ aspect CodeGen {
         out.println("        jmp " + sl);
         out.println(el + ": ");
     }
+
+    public void IfStmt.genCode(PrintStream out, String uName) {
+        String fi = "fi_" + uName;
+        getIfBlock().genCode(out, uName + "_0");
+        for(int i = 0; i<getNumElIfBlocks(); i++) {
+            getElIfBlocks(i).genCode(out, uName + "_" + (i+1));
+        }
+        String elsel = uName + "_" + (getNumElIfBlocks()+1); 
+        out.println(elsel + ":");
+        if(hasElseBlock()) {
+            getElseBlock().getBlock().genCode(out,elsel);
+        }
+        out.println(uName + "_fi:"); 
+    }
+
+    public void IfBlock.genCode(PrintStream out, String uName) {
+        String sl = uName;
+        int lind = uName.lastIndexOf('_');
+        String el = uName.substring(0,lind) + "_" + (Integer.parseInt(uName.substring(lind+1)) + 1);
+        String fi = uName.substring(0,lind) + "_fi";
+        out.println(sl + ":");
+        getCondition().genEval(out);
+        out.println(" " + el);
+        getBlock().genCode(out,sl);
+        out.println("        jmp " + fi);
+    }
 	/**
  	 * Generate code to evaluate the expression and
  	 * store the result in RAX.
